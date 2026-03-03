@@ -1,3 +1,8 @@
+![Node.js](https://img.shields.io/badge/Node.js-v16+-green)
+![TypeScript](https://img.shields.io/badge/TypeScript-Enabled-blue)
+![Playwright](https://img.shields.io/badge/Playwright-Automation-purple)
+![BDD](https://img.shields.io/badge/Framework-BDD-orange)
+
 # 🚀 AutomationExercise Playwright + Cucumber BDD Framework
 End-to-End Test Automation Framework built using:
 
