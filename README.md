@@ -194,7 +194,7 @@ Example:
 After execution:
 
 - Cucumber JSON report generated
-- HTML report generated in timestamp folder
+- HTML report generated in the timestamp folder
 
 Example: ``` test-reports/report/report_03_03_2026_14_30_11/report.html ```
 
@@ -212,7 +212,7 @@ Report includes:
 3. Hooks initialize browser & scenario context  
 4. UIActions execute Playwright commands  
 5. TestLogger stores runtime data  
-6. Screenshots captured based on configuration  
+6. Screenshots captured based on the configuration  
 7. Cucumber JSON generated  
 8. HTML report generated with timestamp  
 
@@ -301,11 +301,10 @@ Supported browsers:
 
 # 👨‍💻 Author
 
-Premdevi Kumawat  
-Automation Engineer  
+Premdevi Kumawat, Automation Engineer  
 
 ---
 
 # 📌 Resume-Ready Description
 
-Designed and developed a scalable Playwright + Cucumber BDD automation framework using TypeScript with secure encrypted test data handling, scenario-level runtime logging, dynamic reporting, and structured POM architecture.
+Designed and developed a scalable Playwright + Cucumber BDD automation framework using TypeScript with secure, encrypted test data handling, scenario-level runtime logging, dynamic reporting, and structured POM architecture.
