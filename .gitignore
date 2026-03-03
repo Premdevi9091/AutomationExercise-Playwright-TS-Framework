@@ -1,0 +1,10 @@
+#ignore .env
+.env
+#ignore test-reports/
+test-reports/
+#ignore testLogs
+testLogs/
+#ignore node_modules
+node_modules
+#ignore log
+*.log
