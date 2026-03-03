@@ -36,7 +36,7 @@ It follows industry best practices:
 # 📥 Clone & Install
 
 ```bash
-git clone <your-repository-url>
+git clone https://github.com/Premdevi9091/AutomationExercise-Playwright-TS-Framework.git
 cd automationexercise-playwright-cucumber
 npm install
 npx playwright install
