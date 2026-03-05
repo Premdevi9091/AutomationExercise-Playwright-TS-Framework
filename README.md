@@ -306,10 +306,6 @@ Supported browsers:
 
 # 👨‍💻 Author
 
-Premdevi Kumawat, Automation Engineer  
+**Premdevi Kumawat**
 
----
-
-# 📌 Resume-Ready Description
-
-Designed and developed a scalable Playwright + Cucumber BDD automation framework using TypeScript with secure, encrypted test data handling, scenario-level runtime logging, dynamic reporting, and structured POM architecture.
+QA Automation Engineer
