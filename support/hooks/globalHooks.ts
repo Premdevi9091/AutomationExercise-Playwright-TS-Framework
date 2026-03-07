@@ -24,27 +24,60 @@ Before(async function (this: CustomWorld, scenario){
         case "firefox":
             browser = await firefox.launch({
                 headless: config.headless,
-                slowMo: config.slowMo
+                slowMo: config.slowMo,
+                args: ["--window-size=1100, 700"]
             });
             break;
         
         case "webkit":
             browser = await webkit.launch({
                 headless: config.headless,
-                slowMo: config.slowMo
+                slowMo: config.slowMo,
+                args: ["--window-size=1100, 700"]
             });
             break;
         
         default:
             browser = await chromium.launch({
                 headless: config.headless,
-                slowMo: config.slowMo
+                slowMo: config.slowMo,
+                args: ["--window-size=1100, 700"]
             });
     }
 
     this.browser = browser;
-    this.context = await browser.newContext();
+    this.context = await browser.newContext({
+        viewport: {width: 1100, height: 700}
+    });
     this.page = await this.context.newPage();
+
+    //Block ad netwrok requests
+    await this.page.route('**/*', (route) => {
+        const url = route.request().url();
+        if(
+            url.includes("doubleclick") ||
+            url.includes("googleads") ||
+            url.includes("googlesyndication") ||
+            url.includes("adsystem")
+        ){
+            return route.abort();
+        }
+        route.continue();
+    });
+
+    //Hide remaining ad elements
+    await this.page.addScriptTag({
+        content: `
+        iframe, 
+        adsbygoogle,
+        [id*="google_ads"],
+        [class*="ads"],
+        [class*="banner]
+        {
+         display: none !important;
+         visibility: hideen !important;
+        }`
+    });
 
     //Apply timeouts from env
     this.page.setDefaultTimeout(config.defaultTimeout);
@@ -62,11 +95,14 @@ AfterStep(async function (this: CustomWorld, step) {
     await this.page.waitForLoadState("domcontentloaded").catch(() => {});
     await this.page.waitForTimeout(400);
 
-    await takeScreenshot(
+    //keep existing screenshot storage
+    const screenshotBuffer = await takeScreenshot(
         this.page,
         this.scenarioName,
         step.pickleStep.text
     );
+    //attach to cucumber report
+    this.attach(screenshotBuffer, "image/png");
 });
 
 After(async function (this: CustomWorld, scenario) {

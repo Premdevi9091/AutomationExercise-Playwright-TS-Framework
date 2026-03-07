@@ -20,7 +20,9 @@ const options: Options = {
     jsonFile: "test-reports/cucumber-report.json",
     output: reportPath,
     reportSuiteAsScenarios: true,
-    launchReport: false,
+    launchReport: true,
+    screenshotsDirectory: "test-reports/screenshots",
+    storeScreenshots: true,
     metadata: {
         "Project Name": "AutomationExercise Playwright Framework",
         "Release": "1.0.0",

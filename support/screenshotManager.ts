@@ -6,7 +6,7 @@ export const takeScreenshot = async(
     page: Page,
     scenario: string,
     step: string
-) => {
+): Promise<Buffer> => {
     const dir = `test-reports/screenshots/${scenario}`;
 
     if(!fs.existsSync(dir)){
@@ -21,8 +21,9 @@ export const takeScreenshot = async(
     await page.waitForLoadState("domcontentloaded");
     await page.waitForTimeout(500);
 
-    await page.screenshot({
-        path: filePath,
-        fullPage: true
-    });
+    const buffer = await page.screenshot({
+            path: filePath,
+            fullPage: true
+        });
+    return buffer;
 };
