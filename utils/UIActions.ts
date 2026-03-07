@@ -1,6 +1,6 @@
 import { expect, Locator, Page } from "@playwright/test";
 import logger from "../utils/logger";
-import { log } from "console";
+import path from "path";
 
 export class UIActions{
     constructor(private page: Page){}
@@ -96,6 +96,36 @@ export class UIActions{
             logger.info(`compareText passed for ${elementName} | actual: "${actualText}" | expected: "${expectedText}"`);
         } catch (error) {
             logger.error(`compareText failed for ${elementName}: ${error}`);
+            throw error;
+        }
+    }
+
+    //upload file
+    async uploadFile(locator: Locator, fileName: string, elementName: string): Promise<void>{
+        try{
+            await expect(locator).toBeAttached({timeout: 5000});
+            const filePath = path.join(process.cwd(), "upload-file", fileName);
+            await locator.setInputFiles(filePath);
+            logger.info(`uploadFile passed for ${elementName} | uploaded: "${fileName}"`);
+        }catch(error){
+            logger.error(`uploadFIle failed for ${elementName}: ${error}`);
+            throw error;
+        }
+    }
+
+    //Handle Alert
+    async clickAndHandleAlert(locator: Locator, elementName: string): Promise<void> {
+        try {
+            this.page.once("dialog", async (dialog) => {
+            const message = dialog.message();
+            logger.info(`Alert appeared for ${elementName}: "${message}"`);
+            await dialog.accept();
+            });
+
+            await locator.click();
+            logger.info(`Click performed for ${elementName}`);
+        } catch (error) {
+            logger.error(`clickAndHandleAlert failed for ${elementName}: ${error}`);
             throw error;
         }
     }
