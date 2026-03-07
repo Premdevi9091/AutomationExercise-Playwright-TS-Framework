@@ -21,6 +21,7 @@ export class LoginPage extends BasePage{
     private passwordField = this.page.locator("input[data-qa='login-password']");
     private loginBtn = this.page.locator("button[data-qa='login-button']");
     private errorMsg = this.page.locator("div.login-form p");
+    private logoutBtn = this.page.getByText("Logout");
 
     async enterEmailAndPassword(userKey: string){
         this.user = UserDataManager.getUser(userKey);
@@ -36,5 +37,9 @@ export class LoginPage extends BasePage{
 
     async errorMessageInvalidLogin(){
         await this.actions?.assertText(this.errorMsg, "Your email or password is incorrect!", "Invalid Login error Message");
+    }
+
+    async clickLogout(){
+        await this.actions?.click(this.logoutBtn, "Logout");
     }
 }

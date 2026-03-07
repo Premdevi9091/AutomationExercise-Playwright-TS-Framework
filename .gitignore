@@ -1,5 +1,3 @@
-#ignore .env
-.env
 #ignore test-reports/
 test-reports/
 #ignore testLogs

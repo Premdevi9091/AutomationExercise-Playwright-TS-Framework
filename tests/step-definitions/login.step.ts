@@ -11,8 +11,12 @@ When('User clicks Login button', async function (this: CustomWorld) {
 When('{string} enters email and password', async function(this: CustomWorld, user:string)  {
     loginPage = new LoginPage(this.page, this.testLogger);
     await loginPage.enterEmailAndPassword(user);
-})
+});
 
 Then('verify error message for invalid login', async function (this: CustomWorld) {
     await loginPage.errorMessageInvalidLogin();
-})
+});
+
+Then('click on logout button', async function(this: CustomWorld)  {
+    await loginPage.clickLogout();
+});
