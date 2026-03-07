@@ -5,9 +5,9 @@
     "password": "U2FsdGVkX1/3vfgWV9ql70PeD9+GYgWiWJLAsJKbjeY="
   },
   "register_user2": {
-    "username": "TestUser2",
-    "email": "emailTestuser2@example.com",
-    "password": "U2FsdGVkX19YCdIo75WSkjkqvy+dDTIpHT2HdY38Zco="
+    "username": "TestUser02",
+    "email": "emailTestuser02@example.com",
+    "password": "U2FsdGVkX1/oeCpTLnXwIIE0YlgGaRj+yh7mU6fdqfw="
   },
   "invalid_user": {
     "username": "TestUser3",
