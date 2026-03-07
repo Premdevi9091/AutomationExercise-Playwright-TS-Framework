@@ -41,13 +41,13 @@ Before(async function (this: CustomWorld, scenario){
             browser = await chromium.launch({
                 headless: config.headless,
                 slowMo: config.slowMo,
-                args: ["--window-size=1100, 700"]
+                args: ["--window-size=1020, 520"]
             });
     }
 
     this.browser = browser;
     this.context = await browser.newContext({
-        viewport: {width: 1100, height: 700}
+        viewport: {width: 1020, height: 520}
     });
     this.page = await this.context.newPage();
 
