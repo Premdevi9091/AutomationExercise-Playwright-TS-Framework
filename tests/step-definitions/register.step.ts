@@ -52,11 +52,15 @@ Then('User click on Delete Account', async function(this: CustomWorld) {
 
 Then('User account should be deleted successfully',async function(this: CustomWorld) {
     await registerPage.verifyAccountDelete();
-})
+});
 
 Then('verify Logged in as {string} should be display', async function(this: CustomWorld, user: string) {
     await registerPage.verifyUserLoggedIn(user);
-})
+});
+
+When('Then verify error message for existing account', async function(this: CustomWorld) {
+    await registerPage.errorMessageExistingAccount();
+});
 
 
 

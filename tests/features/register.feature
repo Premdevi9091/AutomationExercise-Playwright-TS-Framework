@@ -1,4 +1,4 @@
-@smoke
+@smoke @register
 Feature: Validate Account creation and Deletion
 
 Scenario Outline: Register and Delete user successfully
@@ -19,3 +19,13 @@ Examples:
     | user  |
     | register_user1 |
     | register_user2 |
+
+
+Scenario: Register with existing account
+    Given User navigates to Automation Exercise website
+    Then Home page should be visible
+    When User clicks on SignUp Login
+    Then Signup page should be visible
+    When "valid_user1" enters name and email
+    And User clicks Signup button
+    And Then verify error message for existing account

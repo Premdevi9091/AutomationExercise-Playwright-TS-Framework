@@ -1,10 +1,8 @@
 import { BasePage } from "../pages/BasePage";
 import { UIActions } from "../../utils/UIActions";
 import { Page } from "@playwright/test";
-import { config } from "../../utils/config";
 import { DataGenerator } from "../../utils/generateRandom";
 import { TestLogger } from "../../utils/testlogger";
-import { encrypt } from "../../utils/encryption";
 import { UserDataManager } from "../../utils/UserDataManager";
 
 export class RegisterPage extends BasePage{
@@ -44,6 +42,7 @@ export class RegisterPage extends BasePage{
     private loggedInText = this.page.locator("ul.navbar-nav li").last();
     private deleteAccountLink = this.page.getByText("Delete Account");
     private accountDeleteLabel = this.page.locator("h2[data-qa='account-deleted']");
+    private errorMsg = this.page.locator("form p").first();
 
     private userDetails: Record<string, any> = {};
 
@@ -101,7 +100,7 @@ export class RegisterPage extends BasePage{
 
     async verifyUserLoggedIn(userKey: string){
         const user = UserDataManager.getUser(userKey);
-        await this.actions?.compareText(this.loggedInText, ` Logged in as ${user.username}`, 'Logged Text');
+        await this.actions?.compareText(this.loggedInText, `Logged in as ${user.username}`, 'Logged Text');
     }
 
     async clickDeleteAccount(){
@@ -111,5 +110,9 @@ export class RegisterPage extends BasePage{
     async verifyAccountDelete(){
         await this.actions?.assertText(this.accountDeleteLabel, "Account Deleted!", "Account delete label");
         await this.actions?.click(this.continueBtn, "Continue");
+    }
+
+    async errorMessageExistingAccount(){
+        await this.actions?.assertText(this.errorMsg, "Email Address already exist!", "Account Already exist");
     }
 }
