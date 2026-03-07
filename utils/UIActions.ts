@@ -22,60 +22,65 @@ export class UIActions{
 
     async click(locator: Locator, elementName: string){
         await this.retry(async() => {
-            logger.info(`Clicked on ${elementName}`);
+            await expect(locator).toBeVisible({ timeout: 10000 });
+            await expect(locator).toBeEnabled({ timeout: 10000 });
             await locator.scrollIntoViewIfNeeded();
+            // trial click ensures element is clickable
+            await locator.click({ trial: true });
             await locator.click();
+            logger.info(`Clicked on '${elementName}' `);
             await this.page.waitForLoadState("domcontentloaded").catch(() => {});
         }, elementName);
     }
 
     async fill(locator: Locator, value: any, elementName: string){
         await this.retry(async() => {
-            logger.info(`Entered '${value}' in ${elementName}`);
+            await locator.waitFor({ state: "visible"});
             await locator.scrollIntoViewIfNeeded();
             await locator.fill(String(value));
+            logger.info(`Entered '${value}' in ${elementName}`);
         }, elementName);
     }
 
     async select(locator: Locator, value: string, elementName: string){
         await this.retry(async () => {
-            logger.info(`Selected '${value}' from ${elementName}`);
+            await locator.waitFor({ state: "visible"});
             await locator.scrollIntoViewIfNeeded();
-            await locator.click();
             await locator.selectOption(String(value));
+            logger.info(`Selected '${value}' from ${elementName}`);
         }, elementName);
     }
 
-    async isVisible(locator: Locator, elementName: string){
+    async isVisible(locator: Locator, elementName: string): Promise<boolean>{
         try{
-            logger.info(`Checking visibility of '${elementName}' `);
             await locator.scrollIntoViewIfNeeded();
-            return await locator.isVisible();
+            await locator.waitFor({ state: "visible", timeout: 5000});
+            logger.info(`${elementName} is visible`);
+            return true;
         }catch (error){
             logger.error(`Visibility check failed for '${elementName}': ${error}`);
-            throw error;
+            return false;
         }
     }
 
     async assertText(locator: Locator, value: string, elementName: string){
         try{
-            await locator.isVisible();
-            logger.info(`Assert text '${value}' for ${elementName}`);
-            return await expect(locator).toHaveText(value);
+            await locator.scrollIntoViewIfNeeded();
+            await expect(locator).toBeVisible();
+            await expect(locator).toHaveText(value);
+            logger.info(`Assert text '${value}' passed for ${elementName}`);
         }catch (error){
-            logger.error(`Assert failed for ${elementName}: ${error}`);
+            logger.error(`Assert text failed for ${elementName}: ${error}`);
             throw error;
         }
     }
 
     async getText(locator: Locator, elementName: string): Promise<string>{
         try{
-            logger.info(`getText ${elementName}`);
-            if(!(await locator.isVisible())){
-                throw new Error(`${elementName} is not visible`);
-            }
-            const text = await locator.innerText();
-            return text.trim();
+            await expect(locator).toBeVisible();
+            const text = (await locator.textContent())?.trim() || "";
+            logger.info(`Retrieved text from ${elementName} : "${text}"`);
+            return text;
         }
         catch (error){
             logger.error(`getText failed for ${elementName}: ${error}`);
@@ -85,10 +90,10 @@ export class UIActions{
 
     async compareText(locator: Locator, expectedText: string, elementName: string): Promise<void>{
         try{
-            await expect(locator, `${elementName} should be visible`).toBeVisible();
-            const actualText = (await locator.innerText()).trim();
-            expect (actualText, `${elementName} text mismatch`).toBe(expectedText.trim());
-            logger.info(`compareText passed for ${elementName} | actual: "${actualText}"`);
+            await expect(locator).toBeVisible({timeout: 5000});
+            const actualText = (await locator.textContent())?.trim() || "";
+            expect (actualText).toBe(expectedText.trim());
+            logger.info(`compareText passed for ${elementName} | actual: "${actualText}" | expected: "${expectedText}"`);
         } catch (error) {
             logger.error(`compareText failed for ${elementName}: ${error}`);
             throw error;
