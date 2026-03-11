@@ -32,7 +32,7 @@ export class ContactUs extends BasePage{
     private contactFormDetails: Record<string, any> = {};
 
     async clickContactUs(){
-        await this.actions?.click(this.contactUsLink, "SignUp");
+        await this.actions?.click(this.contactUsLink, "Contact Us");
     }
 
     async verifyFormDetails(userKey: string){

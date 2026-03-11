@@ -1,6 +1,7 @@
 import { expect, Locator, Page } from "@playwright/test";
 import logger from "../utils/logger";
 import path from "path";
+import console from "console";
 
 export class UIActions{
     constructor(private page: Page){}
@@ -126,6 +127,31 @@ export class UIActions{
             logger.info(`Click performed for ${elementName}`);
         } catch (error) {
             logger.error(`clickAndHandleAlert failed for ${elementName}: ${error}`);
+            throw error;
+        }
+    }
+
+    //number of elements
+    async getCount(locator: Locator, elementName: string): Promise<number>{
+        try{
+            
+            await expect((locator).first()).toBeVisible();
+            const total = await locator.count();
+            logger.info(`Fetched count from ${elementName} | count: ${total}`);
+            return total;
+        } catch(error){
+            logger.error(`Fetched count failed for ${elementName}: ${error}`);
+            throw error;
+        }
+    }
+
+    //Validate actual vs expected number of elements
+    async validateCount(locator: Locator, value: any, elementName: string){
+        try{
+            await expect(locator).toHaveCount(value);
+            logger.info(`Validate count for ${elementName} | actual: ${await locator.count()} | expected: ${value}`);
+        } catch(error){
+            logger.error(`Validate count failed for ${elementName}: ${error}`);
             throw error;
         }
     }
