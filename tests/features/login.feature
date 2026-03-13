@@ -1,7 +1,7 @@
 @smoke @login
-Feature: Validate Login feature
+Feature: Validate Login functionality
 
-Scenario Outline: Login a valid credentials and Logout
+Scenario Outline: Login & Logut with valid credentials
     Given User navigates to Automation Exercise website
     Then Home page should be visible
     When User clicks on SignUp Login
@@ -17,7 +17,7 @@ Examples:
 | valid_user1 |
 
 
-Scenario: Login a invalid credentials
+Scenario: Login with invalid credentials
     Given User navigates to Automation Exercise website
     Then Home page should be visible
     When User clicks on SignUp Login
