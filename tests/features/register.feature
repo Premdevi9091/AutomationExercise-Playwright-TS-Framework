@@ -1,7 +1,7 @@
 @smoke @register
-Feature: Validate Account creation and Deletion
+Feature: Validate Account Registration and Deletion Functionality 
 
-Scenario Outline: Register and Delete user successfully
+Scenario Outline: Account Register and Delete
     Given User navigates to Automation Exercise website
     Then Home page should be visible
     When User clicks on SignUp Login

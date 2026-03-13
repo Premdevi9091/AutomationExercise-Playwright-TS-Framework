@@ -26,3 +26,23 @@ Then('Verify all the products related to {string} are visible', async function(t
     await products.verifySearchProducts(product_name);
 });
 
+Then('click on continue shopping', async function(this: CustomWorld) {
+    await products.clickContinueShopping();
+})
+
+Then('click on Add to cart', async function(this:CustomWorld) {
+    await products.clickAddtoCart();
+});
+
+Then('hover on the {string} product', async function(this:CustomWorld, product_number: string) {
+    await products.hoverOnProduct(product_number);
+});
+
+Then('click on view cart',  async function(this:CustomWorld) {
+    await products.clickViewCart();
+})
+
+Then('verify the products in cart', async function(this:CustomWorld) {
+    await products.verifyCartDetails();
+});
+

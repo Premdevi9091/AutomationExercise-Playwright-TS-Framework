@@ -89,7 +89,7 @@ export class UIActions{
         }
     }
 
-    async compareText(locator: Locator, expectedText: string, elementName: string): Promise<void>{
+    async compareText(locator: Locator, expectedText: any, elementName: string): Promise<void>{
         try{
             await expect(locator).toBeVisible({timeout: 5000});
             const actualText = (await locator.textContent())?.trim() || "";
@@ -154,5 +154,15 @@ export class UIActions{
             logger.error(`Validate count failed for ${elementName}: ${error}`);
             throw error;
         }
+    }
+
+    //hover
+    async hoverElement(locator: Locator, elementName: string){
+        await this.retry(async () => {
+            await expect(locator).toBeVisible({ timeout: 10000 });
+            await locator.scrollIntoViewIfNeeded();
+            await locator.hover();
+            logger.info(`Hovered on '${elementName}'`);
+        }, elementName);
     }
 }
