@@ -1,7 +1,7 @@
 @smoke @login
 Feature: Validate Login functionality
 
-Scenario Outline: Login & Logut with valid credentials
+Scenario Outline: Login & Logout with valid credentials
     Given User navigates to Automation Exercise website
     Then Home page should be visible
     When User clicks on SignUp Login
