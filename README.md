@@ -4,6 +4,7 @@
 ![BDD](https://img.shields.io/badge/Framework-BDD-orange)
 
 # 🚀 AutomationExercise Playwright + Cucumber BDD Framework
+
 End-to-End Test Automation Framework built using:
 
 - 🎭 Playwright
@@ -14,6 +15,8 @@ End-to-End Test Automation Framework built using:
 - 📊 Cucumber HTML Reporter
 - 🏗 Page Object Model (POM)
 
+---
+
 # 📌 Project Overview
 
 This framework automates test scenarios for:
@@ -23,20 +26,25 @@ This framework automates test scenarios for:
 It follows industry best practices:
 
 - BDD approach using Cucumber
-- Scalable Page Object Model (POM) design
+- Scalable Page Object Model (POM)
 - Scenario-level isolation using CustomWorld
 - Secure credential management with AES encryption
-- Runtime JSON logging for traceability
+- Runtime JSON logging for execution traceability
 - Screenshot capture per step/failure
 - Timestamp-based HTML reporting
 - Clean lifecycle management via hooks
 
+---
+
 # ✅ Prerequisites
+
+Install the following before running the project:
 
 - Node.js (v16+ recommended)
 - npm
 - Git
 
+---
 
 # 📥 Clone & Install
 
@@ -46,6 +54,8 @@ cd automationexercise-playwright-cucumber
 npm install
 npx playwright install
 ```
+
+---
 
 # 🛠 Project Setup (From Scratch)
 
@@ -66,6 +76,8 @@ npm install -D cross-env
 npx playwright install
 ```
 
+---
+
 # 🏗 Folder Structure
 
 ```
@@ -79,44 +91,49 @@ AUTOMATIONEXERCISE_PLAYWRIGHT
 │   │   └── Feature files (.feature)            → define BDD scenarios in Gherkin format
 │   │
 │   ├── pages/
+│   │   ├── BasePage.ts                         → base page containing common browser methods
 │   │   └── Page Object classes                 → encapsulate UI locators and page-level actions
 │   │
 │   └── step-definitions/
 │       └── Step definitions                    → map Gherkin steps to automation logic
 │
 ├── support/
-│   ├── Hooks                                   → manage test lifecycle (Before, After, AfterStep)
-│   ├── screenshotManager                       → capture and store screenshots
-│   └── reportManager                           → generate timestamp-based HTML reports
+│   ├── hooks/
+│   │   └── globalHooks.ts                      → manage test lifecycle (Before, After, AfterStep)
+│   ├── screenshotManager.ts                    → capture and store screenshots
+│   └── reportManager.ts                        → generate timestamp-based HTML reports
 │
 ├── utils/
-│   ├── config                                  → handle environment configuration from .env
-│   ├── testlogger                              → handle scenario-level runtime JSON logging
-│   ├── logger                                  → handle application logging using winston
-│   ├── jsonManager                             → handle generic JSON read, write, update operations
-│   ├── encryption                              → handle AES encryption and decryption
-│   ├── userDataManager                         → manage addUser/getUser from userData.json
-│   ├── UIActions                               → reusable wrapper methods for Playwright actions
-│   └── generateRandom                          → dynamic/random test data generation
+│   ├── config.ts                               → handle environment configuration from .env
+│   ├── testlogger.ts                           → scenario-level runtime JSON logging
+│   ├── logger.ts                               → framework logging using winston
+│   ├── JsonManager.ts                          → generic JSON read, write, update utilities
+│   ├── encryption.ts                           → AES encryption and decryption utilities
+│   ├── UserDataManager.ts                      → manage addUser/getUser from userData.json
+│   ├── UIActions.ts                            → reusable wrapper methods for Playwright actions
+│   ├── generateRandom.ts                       → dynamic/random test data generation
+│   └── pageManager.ts                          → lazy-load and manage page object instances
 │
 ├── world/
-│   └── CustomWorld (Scenario Context)          → maintain scenario-specific browser and logger instances
+│   └── customWorld.ts                          → maintain scenario-specific browser and logger instances
 │
 ├── test-data/
-│   └── userData.json                           → store encrypted user credentials
+│   ├── userData.json                           → store encrypted user credentials
+│   └── upload-file/                            → files used for upload test scenarios
 │
 ├── test-reports/
-│   ├── HTML reports                            → store generated execution reports                       
-│   ├── Screenshots                             → store captured screenshots per step/failure
-│   ├── logs                                    → store framework execution logs (log.log)
-│   └── cucumber-report.json                    → store raw Cucumber JSON output (timestamp-based)
+│   ├── HTML reports                            → generated execution reports
+│   ├── Screenshots                             → screenshots captured per step/failure
+│   ├── logs                                    → framework execution logs (log.log)
+│   └── cucumber-report.json                    → raw Cucumber JSON output
 │
 ├── testLogs/
-│   └── Runtime JSON logs                       → store scenario-specific execution data
+│   └── Runtime JSON logs                       → scenario-specific execution logs
 │
-├── .env                                        → define environment variables and execution configuration
-├── cucumber.js                                 → configure Cucumber runner options and paths
-└── package.json                                → define project dependencies and run scripts
+├── .env                                        → environment configuration
+├── cucumber.js                                 → Cucumber runner configuration
+├── package.json                                → project dependencies and scripts
+└── tsconfig.json                               → TypeScript configuration
 ```
 
 ---
@@ -125,13 +142,15 @@ AUTOMATIONEXERCISE_PLAYWRIGHT
 
 ## 1️⃣ Separation of Concerns
 
-| Layer | Responsibility        |
-|-------|-----------------------|
-| Pages | UI interaction only   |
-| Steps | Test logic            |
-| Hooks | Lifecycle management  |
-| World | Scenario context      |
-| Utils | Reusable utilities    |
+| Layer | Responsibility |
+|------|---------------|
+| Pages | UI interaction |
+| Steps | Test logic |
+| Hooks | Test lifecycle |
+| World | Scenario context |
+| Utils | Reusable utilities |
+
+---
 
 ## 2️⃣ Scenario-Level Isolation (CustomWorld)
 
@@ -140,17 +159,38 @@ Each scenario gets:
 - New browser instance
 - New context & page
 - Independent TestLogger instance
-- Unique runtime JSON file
+- Unique runtime JSON log file
 
 This ensures:
 
 - No shared state
 - Parallel-ready architecture
-- Clean execution
+- Clean test execution
 
-## 3️⃣ Runtime JSON Logging
+---
 
-Each scenario generates:
+## 3️⃣ Page Manager (Lazy Page Initialization)
+
+The framework uses a **PageManager** to dynamically create and reuse page objects.
+
+Example:
+
+```ts
+await this.pages.get(LoginPage).loginUser()
+await this.pages.get(ProductPage).clickCart()
+```
+
+Benefits:
+
+- Avoids multiple page object instantiations
+- Cleaner step definitions
+- Centralized page lifecycle management
+
+---
+
+## 4️⃣ Runtime JSON Logging
+
+Each scenario generates a runtime JSON file:
 
 ```
 testLogs/Register_user_2026-03-03T14_25_10_123Z.json
@@ -170,11 +210,13 @@ Example:
 
 Used for:
 
-- Debugging  
-- Execution tracking  
-- Data traceability  
+- Debugging
+- Execution tracking
+- Data traceability
 
-## 4️⃣ Secure Test Data Handling
+---
+
+## 5️⃣ Secure Test Data Handling
 
 Passwords are:
 
@@ -194,14 +236,20 @@ Example:
 }
 ```
 
-## 5️⃣ Reporting
+---
+
+## 6️⃣ Reporting
 
 After execution:
 
 - Cucumber JSON report generated
-- HTML report generated in the timestamp folder
+- HTML report generated automatically
 
-Example: ``` test-reports/report/report_03_03_2026_14_30_11/report.html ```
+Example:
+
+```
+test-reports/report/report_03_03_2026_14_30_11/report.html
+```
 
 Report includes:
 
@@ -210,17 +258,20 @@ Report includes:
 - Step details
 - Screenshots
 
+---
+
 # 🔄 Test Execution Flow
 
-1. Cucumber reads feature files  
-2. Step definitions map to automation logic  
-3. Hooks initialize browser & scenario context  
-4. UIActions execute Playwright commands  
-5. TestLogger stores runtime data  
-6. Screenshots captured based on the configuration  
-7. Cucumber JSON generated  
-8. HTML report generated with timestamp  
+1️⃣ Cucumber reads feature files  
+2️⃣ Step definitions map to automation logic  
+3️⃣ Hooks initialize browser & scenario context  
+4️⃣ UIActions execute Playwright commands  
+5️⃣ TestLogger stores runtime data  
+6️⃣ Screenshots captured based on the configuration  
+7️⃣ Cucumber JSON generated  
+8️⃣ HTML report generated with timestamp
 
+---
 
 # ▶️ How To Run Tests
 
@@ -230,12 +281,16 @@ Report includes:
 npm test
 ```
 
+---
+
 ## 🔹 Run By Tag
 
 ```bash
 npm run test:smoke
 npm run test:register
 ```
+
+---
 
 ## 🔹 Add New User (Encrypted)
 
@@ -248,7 +303,7 @@ Prompts for:
 - user key
 - username
 - email
-- password (auto encrypted)
+- password (auto-encrypted)
 
 ---
 
@@ -276,10 +331,11 @@ Supported browsers:
 
 # 🏷 Tag Strategy
 
-| Tag       | Purpose                |
-|-----------|------------------------|
-| @smoke    | Critical test flows    |
+| Tag | Purpose |
+|----|----|
+| @smoke | Critical test flows |
 | @register | Registration scenarios |
+| @login | Login functionality |
 
 ---
 
@@ -300,7 +356,7 @@ Supported browsers:
 - Secure encrypted credentials
 - Scenario-level JSON logging
 - Timestamp-based reporting
-- Modular and production-ready structure
+- Modular and production-ready framework
 
 ---
 
