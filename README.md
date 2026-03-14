@@ -203,8 +203,7 @@ Example:
   "userDetails": {
     "Username": "TestUser2",
     "Email": "emailTestuser2@example.com"
-  },
-  "ScenarioStatus": "PASSED"
+  }
 }
 ```
 
