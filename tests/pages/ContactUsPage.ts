@@ -6,7 +6,7 @@ import { UserDataManager } from "../../utils/UserDataManager";
 import { DataGenerator } from "../../utils/generateRandom";
 
 
-export class ContactUs extends BasePage{
+export class ContactUsPage extends BasePage{
     private actions: UIActions | undefined;
     private testLogger: TestLogger;
     private user : any;
@@ -18,7 +18,7 @@ export class ContactUs extends BasePage{
     }
 
     //Locators
-    private contactUsLink = this.page.getByText('Contact us');
+    
     private title = this.page.locator(".contact-form h2");
     private nameField = this.page.locator("[data-qa='name']");
     private emailField = this.page.locator("[data-qa='email']");
@@ -31,9 +31,6 @@ export class ContactUs extends BasePage{
 
     private contactFormDetails: Record<string, any> = {};
 
-    async clickContactUs(){
-        await this.actions?.click(this.contactUsLink, "Contact Us");
-    }
 
     async verifyFormDetails(userKey: string){
         await this.actions?.assertText(this.title, "Get In Touch", "Title: Get In Touch");

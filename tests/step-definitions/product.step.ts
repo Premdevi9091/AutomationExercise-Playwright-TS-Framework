@@ -1,48 +1,45 @@
-import { Given, When, Then } from "@cucumber/cucumber";
+import { When, Then } from "@cucumber/cucumber";
 import { CustomWorld } from "../../world/customWorld";
-import { Products } from "../pages/Products";
-
-let products: Products;
-
-When('User click on Product button', async function(this: CustomWorld)  {
-    products = new Products(this.page, this.testLogger);
-    await products.clickProduct();
-});
+import { ProductsPage } from "../pages/ProductsPage";
 
 Then('User should navigated to All Product page', async function(this: CustomWorld) {
-    await products.verfiyProductsPage();
+    await this.pages.get(ProductsPage).verfiyProductsPage();
 });
 
 Then('click on view products and verify details', async function(this: CustomWorld) {
-   await products.clickOnViewProduct();
+   await this.pages.get(ProductsPage).clickOnViewProduct();
 });
 
 Then('enter the {string} and click on search', async function(this: CustomWorld, product_name: string) {
-    await products.searchProduct(product_name);
-    await products.clickSearchButton();
+    await this.pages.get(ProductsPage).searchProduct(product_name);
+    await this.pages.get(ProductsPage).clickSearchButton();
 }); 
 
 Then('Verify all the products related to {string} are visible', async function(this: CustomWorld, product_name: string) {
-    await products.verifySearchProducts(product_name);
+    await this.pages.get(ProductsPage).verifySearchProducts(product_name);
 });
 
 Then('click on continue shopping', async function(this: CustomWorld) {
-    await products.clickContinueShopping();
+    await this.pages.get(ProductsPage).clickContinueShopping();
 })
 
 Then('click on Add to cart', async function(this:CustomWorld) {
-    await products.clickAddtoCart();
+    await this.pages.get(ProductsPage).clickAddtoCart();
 });
 
 Then('hover on the {string} product', async function(this:CustomWorld, product_number: string) {
-    await products.hoverOnProduct(product_number);
+    await this.pages.get(ProductsPage).hoverOnProduct(product_number);
 });
 
 Then('click on view cart',  async function(this:CustomWorld) {
-    await products.clickViewCart();
+    await this.pages.get(ProductsPage).clickViewCart();
 })
 
 Then('verify the products in cart', async function(this:CustomWorld) {
-    await products.verifyCartDetails();
+    await this.pages.get(ProductsPage).verifyCartDetails();
+});
+
+When('User click on Products', async function(this: CustomWorld)  {
+    await this.pages.get(ProductsPage).clickProduct();
 });
 

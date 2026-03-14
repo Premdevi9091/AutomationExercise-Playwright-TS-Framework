@@ -1,32 +1,30 @@
-import { Given, When, Then } from "@cucumber/cucumber";
+import { When, Then } from "@cucumber/cucumber";
 import { CustomWorld } from "../../world/customWorld";
-import { ContactUs } from "../pages/ContactUsPage";
+import { ContactUsPage } from "../pages/ContactUsPage";
+import { HomePage } from "../pages/HomePage";
 
-let contactUs: ContactUs;
-
-When('User click on Contact Us link', async function(this:CustomWorld) {
-    contactUs = new ContactUs(this.page, this.testLogger);
-    await contactUs.clickContactUs();
+When('User click on Contact Us', async function(this:CustomWorld) {
+    await this.pages.get(HomePage).clickContactUs();
 });
 
 When('{string} fill the form details', async function(this: CustomWorld, user:string) {
-   await contactUs.verifyFormDetails(user);
+   await this.pages.get(ContactUsPage).verifyFormDetails(user);
 });
 
 When('upload the {string}', async function(this:CustomWorld, fileName: string) {
-    await contactUs.verifyUploadFile(fileName);
+    await this.pages.get(ContactUsPage).verifyUploadFile(fileName);
 });
 
 When('click on submit button', async function(this: CustomWorld) {
-    await contactUs.clickSubmit();
+    await this.pages.get(ContactUsPage).clickSubmit();
 });
 
 Then('verify success message', async function(this: CustomWorld) {
-    await contactUs.verifyFormSubmission();
+    await this.pages.get(ContactUsPage).verifyFormSubmission();
 });
 
 Then('User click on Home button', async function(this: CustomWorld) {
-    await contactUs.clickHome();
+    await this.pages.get(ContactUsPage).clickHome();
 });
 
 
