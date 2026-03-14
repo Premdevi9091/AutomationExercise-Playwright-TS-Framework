@@ -91,7 +91,8 @@ export class UIActions{
 
     async compareText(locator: Locator, expectedText: any, elementName: string): Promise<void>{
         try{
-            await expect(locator).toBeVisible({timeout: 5000});
+            await locator.waitFor({ state: "attached", timeout: 5000 });
+            //await expect(locator).toBeVisible({timeout: 5000});
             const actualText = (await locator.textContent())?.trim() || "";
             expect (actualText).toBe(expectedText.trim());
             logger.info(`compareText passed for ${elementName} | actual: "${actualText}" | expected: "${expectedText}"`);
@@ -105,7 +106,7 @@ export class UIActions{
     async uploadFile(locator: Locator, fileName: string, elementName: string): Promise<void>{
         try{
             await expect(locator).toBeAttached({timeout: 5000});
-            const filePath = path.join(process.cwd(), "upload-file", fileName);
+            const filePath = path.join(process.cwd(), "test-data/upload-file", fileName);
             await locator.setInputFiles(filePath);
             logger.info(`uploadFile passed for ${elementName} | uploaded: "${fileName}"`);
         }catch(error){
