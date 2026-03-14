@@ -1,22 +1,19 @@
-import { Given, When, Then } from "@cucumber/cucumber";
+import { When, Then } from "@cucumber/cucumber";
 import { CustomWorld } from "../../world/customWorld";
-import { HomePage } from "../pages/HomePage";
 import { LoginPage } from "../pages/LoginPage";
 
-let loginPage: LoginPage;
 
 When('User clicks Login button', async function (this: CustomWorld) {
-    await loginPage.clickLogin();
+    await this.pages.get(LoginPage).clickLogin();
 });
 When('{string} enters email and password', async function(this: CustomWorld, user:string)  {
-    loginPage = new LoginPage(this.page, this.testLogger);
-    await loginPage.enterEmailAndPassword(user);
+    await this.pages.get(LoginPage).enterEmailAndPassword(user);
 });
 
 Then('verify error message for invalid login', async function (this: CustomWorld) {
-    await loginPage.errorMessageInvalidLogin();
+    await this.pages.get(LoginPage).errorMessageInvalidLogin();
 });
 
 Then('click on logout button', async function(this: CustomWorld)  {
-    await loginPage.clickLogout();
+    await this.pages.get(LoginPage).clickLogout();
 });

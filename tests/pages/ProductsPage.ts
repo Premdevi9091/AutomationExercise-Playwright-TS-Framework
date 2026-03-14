@@ -5,7 +5,7 @@ import { TestLogger } from "../../utils/testlogger";
 import logger from "../../utils/logger";
 
 
-export class Products extends BasePage{
+export class ProductsPage extends BasePage{
     private actions: UIActions | undefined;
     private testLogger: TestLogger;
     private product_no : string | undefined;
@@ -30,7 +30,6 @@ export class Products extends BasePage{
     private viewCart = this.page.getByText('View Cart');
     private modelAddedText = this.page.locator('.modal-content h4');
     private modelAddedMsg = this.page.locator('.modal-content p').first();
-
     
     async clickProduct(){
         await this.actions?.click(this.productLink, "Products");

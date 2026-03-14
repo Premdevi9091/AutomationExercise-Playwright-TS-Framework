@@ -1,11 +1,11 @@
-import { BeforeAll, Before, After, AfterStep, Status, setDefaultTimeout } from "@cucumber/cucumber";
+import { Before, After, AfterStep, Status, setDefaultTimeout } from "@cucumber/cucumber";
 import { chromium, Browser, firefox, webkit } from "@playwright/test";
 import { CustomWorld } from "../../world/customWorld";
 import logger from "../../utils/logger";
 import { takeScreenshot } from "../screenshotManager";
 import { config } from "../../utils/config";
 import { TestLogger } from "../../utils/testlogger";
-import fs from "fs";
+import { PageManager } from "../../utils/pageManager";
 
 setDefaultTimeout(config.defaultTimeout);
 let browser : Browser;
@@ -50,6 +50,7 @@ Before(async function (this: CustomWorld, scenario){
         viewport: {width: 1020, height: 520}
     });
     this.page = await this.context.newPage();
+    this.pages = new PageManager(this.page, this.testLogger);
 
     //Block ad netwrok requests
     await this.page.route('**/*', (route) => {
