@@ -10,10 +10,10 @@ End-to-End Test Automation Framework built using:
 - 🎭 Playwright
 - 🥒 Cucumber (BDD)
 - 🟦 TypeScript
+- 🏗 Page Object Model (POM)
+- 📊 Cucumber HTML Reporter
 - 🔐 AES Encryption (crypto-js)
 - 📝 Scenario-Level Runtime JSON Logging
-- 📊 Cucumber HTML Reporter
-- 🏗 Page Object Model (POM)
 
 ---
 
