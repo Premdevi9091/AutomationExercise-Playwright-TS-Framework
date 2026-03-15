@@ -24,11 +24,17 @@ export class LoginPage extends BasePage{
     private logoutBtn = this.page.getByText("Logout");
 
     async enterEmailAndPassword(userKey: string){
+        let loginDetails: Record<string, any> = {};
         this.user = UserDataManager.getUser(userKey);
         const email = this.user.email;
         const password = this.user.password;
         await this.actions?.fill(this.emailField, email, "Email Input");
         await this.actions?.fill(this.passwordField, password, "Password input");
+        loginDetails = {
+            username: this.user.username,
+            email: email
+        }
+        this.testLogger.put("user", loginDetails);
     }
     
     async clickLogin(){
