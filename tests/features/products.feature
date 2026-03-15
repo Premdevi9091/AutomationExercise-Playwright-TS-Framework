@@ -1,4 +1,4 @@
-@products @smoke
+@smoke @products
 Feature: Validate Products functionality
 
 Scenario: List of Products
@@ -21,21 +21,42 @@ Examples:
 | top |
 | shirt |
 
-Scenario: Add product in cart
+Scenario Outline: Add product in cart
     Given User navigates to Automation Exercise website
     Then Home page should be visible
     When User click on Products
     Then User should navigated to All Product page
-    And hover on the "1" product
+    And hover on the "<product1_id>" product
     And click on Add to cart
     And click on continue shopping
-    And hover on the "4" product
+    And hover on the "<product2_id>" product
     And click on Add to cart
     And click on continue shopping
-    And hover on the "2" product
-    And click on Add to cart
-    And click on continue shopping
-    And hover on the "2" product
+    And hover on the "<product3_id>" product
     And click on Add to cart
     And click on view cart
     And verify the products in cart
+
+Examples:
+| product1_id | product2_id | product3_id |
+|       1     |     2       |      5      |
+|       7     |     7       |      7      |
+|       4     |     2       |      4      |
+
+
+Scenario Outline: Product quantity in cart
+    Given User navigates to Automation Exercise website
+    Then Home page should be visible
+    When User click on Products
+    Then User should navigated to All Product page
+    And User click on view Product for "<product_id>"
+    And User increase quantity to "<increase_qty>" from product details page
+    And click on Add to cart from product details page
+    And click on view cart
+    And verify the products in cart
+
+Examples:
+| product_id | increase_qty |
+|     3      |      3       |
+|     7      |     10       |
+

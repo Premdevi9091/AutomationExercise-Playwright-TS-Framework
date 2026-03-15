@@ -24,10 +24,10 @@ Then('click on continue shopping', async function(this: CustomWorld) {
 })
 
 Then('click on Add to cart', async function(this:CustomWorld) {
-    await this.pages.get(ProductsPage).clickAddtoCart();
+    await this.pages.get(ProductsPage).clickAddtoCartHomePage();
 });
 
-Then('hover on the {string} product', async function(this:CustomWorld, product_number: string) {
+Then('hover on the {string} product', async function(this:CustomWorld, product_number: number) {
     await this.pages.get(ProductsPage).hoverOnProduct(product_number);
 });
 
@@ -43,3 +43,18 @@ When('User click on Products', async function(this: CustomWorld)  {
     await this.pages.get(ProductsPage).clickProduct();
 });
 
+Then('verify the products quantity in cart', async function(this: CustomWorld)  {
+  // Write code here that turns the phrase above into concrete actions
+})
+
+Then('User increase quantity to {string} from product details page', async function(this: CustomWorld, qty: number) {
+    await this.pages.get(ProductsPage).increaseQty(qty);
+});
+
+Then('User click on view Product for {string}', async function(this: CustomWorld, product_id: number) {
+    await this.pages.get(ProductsPage).clickViewProduct(product_id);
+});
+
+Then('click on Add to cart from product details page', async function(this: CustomWorld) {
+    await this.pages.get(ProductsPage).clickAddtoCartDetailPage();
+});
