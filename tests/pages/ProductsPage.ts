@@ -3,12 +3,19 @@ import { UIActions } from "../../utils/UIActions";
 import { expect, Page } from "@playwright/test";
 import { TestLogger } from "../../utils/testlogger";
 import logger from "../../utils/logger";
+import { log } from "console";
 
+interface CartItem  {
+    id: string;
+    name: string;
+    price: string;
+    quantity: number;
+};
 
 export class ProductsPage extends BasePage{
     private actions: UIActions | undefined;
     private testLogger: TestLogger;
-    private product_no : string | undefined;
+    private product_no : number | undefined;
 
 
     constructor(page: Page, testLogger: TestLogger){
@@ -30,6 +37,9 @@ export class ProductsPage extends BasePage{
     private viewCart = this.page.getByText('View Cart');
     private modelAddedText = this.page.locator('.modal-content h4');
     private modelAddedMsg = this.page.locator('.modal-content p').first();
+    private productImg = this.page.locator("img[alt='ecommerce website products']");
+    private viewProduct = (productId: number) => this.page.locator(`a[href='/product_details/${productId}']`);
+    private addtoCart = this.page.getByRole("button", {name: "Add to cart"});
     
     async clickProduct(){
         await this.actions?.click(this.productLink, "Products");
@@ -41,9 +51,8 @@ export class ProductsPage extends BasePage{
     }
 
     async clickOnViewProduct(){
-        for(let i = 0; i < 5; i++){
-            const viewProducts = this.page.locator("a[href*='product_details']");
-            await this.actions?.click(viewProducts.nth(i), `Clicked on View Product for: ${i + 1} product`);
+        for(let i = 1; i <= 5; i++){
+            await this.actions?.click(this.viewProduct(i), `Clicked on View Product for: ${i + 1} product`);
             await this.verifyProductDetails();
             await this.actions?.click(this.productLink, "Products");
         }
@@ -51,21 +60,24 @@ export class ProductsPage extends BasePage{
 
     async verifyProductDetails(){
         let productsDetails: Record<string, any> = {};
-        
+        const productId = (await this.actions?.getAttribute(this.productImg.nth(0), "src", "src"))?.split("/").pop();
         const name = await this.actions?.getText(this.productInformation.locator("h2"), "Product Name");
         const category = (await this.actions?.getText(this.productInformation.locator("p").nth(0), "Product Category"))?.split(":")[1].trim();
         const availability = (await this.actions?.getText(this.productInformation.locator("p").nth(1), "Product Availability"))?.split(":")[1].trim();
         const price = await this.actions?.getText(this.productInformation.locator("span").nth(1), "Product Price");
         const condition = (await this.actions?.getText(this.productInformation.locator("p").nth(2), "Product Condition"))?.split(":")[1].trim();
         const brand = (await this.actions?.getText(this.productInformation.locator("p").nth(3), "Product Brand"))?.split(":")[1].trim();
+        const qty = (await this.actions?.getInputValue(this.productInformation.locator("input").nth(0), "Product Quantity"));
 
         productsDetails = {
-            ProductName: name,
-            Cateogory: category,
-            Availability: availability,
-            Price: price,
-            Condition: condition,
-            Brand: brand
+            id: productId,
+            name: name,
+            cateogory: category,
+            availability: availability,
+            price: price,
+            quantity: qty,
+            condition: condition,
+            brand: brand
         }
         this.testLogger.put(`Products`, productsDetails);        
     }
@@ -94,7 +106,7 @@ export class ProductsPage extends BasePage{
         this.testLogger.put(`SearchProducts_${product_name}`, searchProducts);
     }
 
-    async hoverOnProduct(product_number: any){
+    async hoverOnProduct(product_number: number){
         this.product_no = product_number;
         const hover = this.hoverEle.nth(product_number - 1);
         await this.actions?.hoverElement(hover, `Product ${product_number}`);
@@ -103,14 +115,14 @@ export class ProductsPage extends BasePage{
         const name = await this.actions?.getText(hover.locator(".productinfo p"), "Product Name");
         const price = await this.actions?.getText(hover.locator(".productinfo h2"), "Product Price");
         productsDetails = {
-            product_id: product_number,
+            id: product_number,
             name: name,
             price: price
         }
         this.testLogger.put(`Products`, productsDetails);
 
     }
-    async clickAddtoCart(){
+    async clickAddtoCartHomePage(){
         const addtoCart = this.page.locator(`.overlay-content a[data-product-id='${this.product_no}']`);
         await this.actions?.click(addtoCart, "Add to cart");
         await this.actions?.assertText(this.modelAddedText, "Added!", "Added Text");
@@ -125,46 +137,77 @@ export class ProductsPage extends BasePage{
         await this.actions?.click(this.viewCart, "View Cart");
     }
 
-    async verifyCartDetails(){
-        const expectedDetails = this.testLogger.get("Products");
-        const expectedDetailsMap = new Map();
+    private normalizedCartData(data: any): CartItem[]{
 
-        //Group products by product_id and calculate quantity
-        for(const product of expectedDetails){
-            if(!expectedDetailsMap.has(product.product_id)){
-                expectedDetailsMap.set(product.product_id, {
-                     name: product.name,
-                     price: product.price,
-                     quantity: 1
-                });
-            } else{
-                expectedDetailsMap.get(product.product_id).quantity += 1;
+        //Product added from Home Page(array format)
+        if(Array.isArray(data)){
+            const grouped = new Map<string, CartItem>();
+            for(const item of data){
+                if(!grouped.has(item.id)){
+                    grouped.set(item.id, {
+                        id: item.id,
+                        name: item.name,
+                        price: item.price,
+                        quantity: 1
+                    });
+                } else{
+                    grouped.get(item.id)!.quantity += 1;
+                }
             }
+            return [...grouped.values()];
         }
-        logger.info(`Expected cart map: ${JSON.stringify([...expectedDetailsMap])}`);
+
+        //Product added from Product Detail page(object format)
+        return [{
+            id: data.id,
+            name: data.name,
+            price: data.price,
+            quantity: Number(data.quantity)
+        }];
+    }
+
+    private async validateCartRow(item: CartItem){
+        const row = this.page.locator(`#product-${item.id}`);
+        //convert price "Rs. 500 -> 500"
+        const priceValue = Number(item.price.replace(/[^\d]/g, ""));
+        const expectedTotal: any = priceValue * item.quantity;
+
+        //Format back to UI format
+        const expectedTotalText = `Rs. ${expectedTotal}`;
+
+        const productNameEle = row.locator(`td.cart_description h4`);
+        await this.actions?.compareText(productNameEle, item.name, `Product Id ${item.id} : Name`);
+
+        const productPriceEle = row.locator(`td.cart_price p`);
+        await this.actions?.compareText(productPriceEle, item.price, `Product Id ${item.id} : Price`);
+
+        const productQtyEle= row.locator(`td.cart_quantity button`);
+        await this.actions?.compareText(productQtyEle, String(item.quantity), `Product Id ${item.id} : Quantity`);
+
+        const productTotalPriceEle= row.locator(`td.cart_total p`);
+        await this.actions?.compareText(productTotalPriceEle, expectedTotalText, `Product Id ${item.id} : Total price`);
+    }
+
+    async verifyCartDetails(){
+        const rawData = this.testLogger.get("Products");
+        const items = this.normalizedCartData(rawData);
+        logger.info(`Cart items to validate: ${JSON.stringify(items)}`);
+        for(const item of items){
+            await this.validateCartRow(item);
+        }
         
-        for(const [productId, expected] of expectedDetailsMap){
-            const row = this.page.locator(`#product-${productId}`);
-            const qty = expected.quantity;
+    }
 
-            //convert price "Rs. 500 -> 500"
-            const priceValue = Number(expected.price.replace(/[^\d]/g, ""));
-            const expectedTotal: any = priceValue * qty;
+    async clickViewProduct(product_id : number){
+        await this.actions?.click(this.viewProduct(product_id), "View Product");
+    }
 
-            //Format back to UI format
-            const expectedTotalText = `Rs. ${expectedTotal}`;
+    async increaseQty(qty: number){
+        await this.actions?.fill(this.productInformation.locator("input").nth(0), qty,  `Quantity input`);
+        await this.verifyProductDetails();
+    }
 
-            const productNameEle = row.locator(`td.cart_description h4`);
-            await this.actions?.compareText(productNameEle, expected.name, `Product ${productId} : Name`);
-
-            const productPriceEle = row.locator(`td.cart_price p`);
-            await this.actions?.compareText(productPriceEle, expected.price, `Product ${productId} : Price`);
-
-            const productQtyEle= row.locator(`td.cart_quantity button`);
-            await this.actions?.compareText(productQtyEle, qty.toString(), `Product ${productId} : Quantity`);
-
-            const productTotalPriceEle= row.locator(`td.cart_total p`);
-            await this.actions?.compareText(productTotalPriceEle, expectedTotalText, `Product ${productId} : Total price`);
-        }
+    async clickAddtoCartDetailPage(){
+        await this.actions?.click(this.addtoCart, "Add to Cart");
     }
 }

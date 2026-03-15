@@ -166,4 +166,29 @@ export class UIActions{
             logger.info(`Hovered on '${elementName}'`);
         }, elementName);
     }
+
+    //input value
+    async getInputValue(locator: Locator, elementName: string): Promise<string>{
+        try{
+            await expect(locator).toBeVisible();
+            const value = await locator.inputValue();
+            logger.info(`Retrieved input value from ${elementName}: "${value}`);
+            return value;
+        }catch(error){
+            logger.error(`getInputValue failed for ${elementName}: ${error}`);
+            throw error;
+        }
+    }
+
+    //getAttribute
+    async getAttribute(locator: Locator, attribute: string, elementName: string){
+        try{
+            const value = await locator.getAttribute(attribute);
+            logger.info(`Retrieved "${attribute}" from ${elementName} attribute: "${value}"`);
+            return value;
+        }catch(error){
+            logger.error(`getAttribute failed for ${elementName}: ${error}`);
+            throw error;
+        }
+    }
 }
