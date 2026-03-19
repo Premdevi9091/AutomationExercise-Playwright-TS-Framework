@@ -47,10 +47,10 @@ export class ContactUsPage extends BasePage{
         await this.actions?.fill(this.messageField, message, "Message Input");
         
         this.contactFormDetails = {
-            Username: name,
-            Email: email,
-            Subject: subject,
-            Message: message
+            username: name,
+            email: email,
+            subject: subject,
+            message: message
         };
         this.testLogger.put("contactFormDetails", this.contactFormDetails);
         

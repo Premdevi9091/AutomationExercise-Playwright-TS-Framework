@@ -43,10 +43,6 @@ When('User click on Products', async function(this: CustomWorld)  {
     await this.pages.get(ProductsPage).clickProduct();
 });
 
-Then('verify the products quantity in cart', async function(this: CustomWorld)  {
-  // Write code here that turns the phrase above into concrete actions
-})
-
 Then('User increase quantity to {string} from product details page', async function(this: CustomWorld, qty: number) {
     await this.pages.get(ProductsPage).increaseQty(qty);
 });
