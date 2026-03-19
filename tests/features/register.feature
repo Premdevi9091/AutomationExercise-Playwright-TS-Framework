@@ -1,6 +1,7 @@
 @smoke @register
 Feature: Validate Account Registration and Deletion Functionality 
 
+#Test Case 1: Register User
 Scenario Outline: Account Register and Delete
     Given User navigates to Automation Exercise website
     Then Home page should be visible
@@ -20,7 +21,7 @@ Examples:
     | register_user1 |
     | register_user2 |
 
-
+#Test Case 5: Register User with existing email
 Scenario: Register with existing account
     Given User navigates to Automation Exercise website
     Then Home page should be visible
