@@ -10,6 +10,8 @@ export class RegisterPage extends BasePage{
     private actions: UIActions | undefined;
     private testLogger: TestLogger;
     private user : any;
+    private email: string | undefined;
+    private name: string | undefined;
     
     constructor(page: Page, testLogger: TestLogger){
         super(page);
@@ -53,18 +55,15 @@ export class RegisterPage extends BasePage{
 
     async enterNameAndEmail(userKey: string){
         this.user = UserDataManager.getUser(userKey);
-        const name = this.user.username;
-        const email = this.user.email;
-        await this.actions?.fill(this.nameField, name, "Name input");
-        await this.actions?.fill(this.emailField, email, "Email input");
-        
+        this.name = this.user.username;
+        this.email = this.user.email;
+        await this.actions?.fill(this.nameField, this.name, "Name input");
+        await this.actions?.fill(this.emailField, this.email, "Email input");
         this.userDetails = {
-            Username: name,
-            Email: email
-        };
-
+            username: this.name,
+            email: this.email
+        }
         this.testLogger.put("userDetails", this.userDetails);
-        //console.log(`***** ${this.testLogger.get("userDetails.Username")}*****`);
     }
 
     async clickSignup(){
@@ -72,21 +71,64 @@ export class RegisterPage extends BasePage{
     }
 
     async fillAccountDetails(){
-        await this.actions?.fill(this.passwordField, this.user.password,"Password input");
-        
-        await this.actions?.select(this.daySelect, DataGenerator.generateRandomNumber(1, 31), "Date of Birth: Day input");
-        await this.actions?.select(this.monthSelect, DataGenerator.generateRandomNumber(1, 12), "Date of Birth: Month input");
-        await this.actions?.select(this.yearSelect, DataGenerator.generateRandomNumber(1990, 2021), "Date of Birth: Year input");
-        
-        await this.actions?.fill(this.firstNameField, DataGenerator.generateRandomString(6), "FirstName input");
-        await this.actions?.fill(this.lastNameField, DataGenerator.generateRandomString(8), "LastName input");
+        const gender = DataGenerator.generateRandomNumber(1, 2);
+        const genderRadio = this.page.locator(`label[for="id_gender${gender}"]`);
+        const password = this.user.password;
+        const firstName =  `first_${DataGenerator.generateRandomString(6)}`;
+        const lastName = `last_${DataGenerator.generateRandomString(8)}`;
+        const company = `comp_${DataGenerator.generateRandomString(10)}`;
+        const day = DataGenerator.generateRandomNumber(1, 31);
+        const month = DataGenerator.generateRandomNumber(1, 12)
+        const year = DataGenerator.generateRandomNumber(1990, 2021);
+        const address = DataGenerator.generateRandomString(15);
+        const country = "India";
+        const state = `state_${DataGenerator.generateRandomString(12)}`;
+        const city = `city_${DataGenerator.generateRandomString(7)}`;
+        const zipcode = DataGenerator.generateRandomNumber(49876, 698765);
+        const mobile = DataGenerator.generateRandomPhone();
 
-        await this.actions?.fill(this.addressField1, DataGenerator.generateRandomString(15), "Address1 input");
-        await this.actions?.select(this.countryDropdown, "India", "Country select");
-        await this.actions?.fill(this.stateField, DataGenerator.generateRandomString(12), "State input");
-        await this.actions?.fill(this.cityField, DataGenerator.generateRandomString(7), "City input");
-        await this.actions?.fill(this.zipcodeField, DataGenerator.generateRandomNumber(49876, 698765), "Zipcode input");
-        await this.actions?.fill(this.mobileField, DataGenerator.generateRandomPhone(), "Mobile Number input");
+        //Gender
+        await this.actions?.click(genderRadio.locator('input'), "Gender Radio");
+        const genderText = await this.actions?.getText(genderRadio, "Gender Text");
+
+        //Password
+        await this.actions?.fill(this.passwordField, password,"Password input");
+
+        //Date of Birth
+        await this.actions?.select(this.daySelect, day, "Date of Birth: Day input");
+        await this.actions?.select(this.monthSelect, month, "Date of Birth: Month input");
+        await this.actions?.select(this.yearSelect, year, "Date of Birth: Year input");
+
+        //FirstName LastName
+        await this.actions?.fill(this.firstNameField, firstName, "FirstName input");
+        await this.actions?.fill(this.lastNameField, lastName, "LastName input");
+
+        //Company 
+        await this.actions?.fill(this.companyField, company, "Company input");
+
+        //Address
+        await this.actions?.fill(this.addressField1, address, "Address1 input");
+        await this.actions?.select(this.countryDropdown, country, "Country select");
+        await this.actions?.fill(this.stateField, state, "State input");
+        await this.actions?.fill(this.cityField, city, "City input");
+        await this.actions?.fill(this.zipcodeField, zipcode, "Zipcode input");
+        await this.actions?.fill(this.mobileField, mobile, "Mobile Number input");
+        this.userDetails ={
+            ...this.userDetails,
+            gender: genderText,
+            firstName: firstName,
+            lastName: lastName,
+            address: {
+                company: company,
+                address: address,
+                country: country,
+                state: state,
+                city: city,
+                zipcode: zipcode,
+                mobile: mobile
+            }
+        }
+        this.testLogger.put("userDetails", this.userDetails);
     }
 
     async clickCreateAccount(){
