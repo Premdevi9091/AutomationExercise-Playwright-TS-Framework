@@ -1,6 +1,7 @@
 @smoke @contactus
 Feature: Validate Contact Us functionality
 
+#Test Case 6: Contact Us Form
 Scenario: Submit feedback
     Given User navigates to Automation Exercise website
     Then Home page should be visible

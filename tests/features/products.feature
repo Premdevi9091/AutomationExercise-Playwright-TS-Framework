@@ -1,6 +1,7 @@
 @smoke @products
 Feature: Validate Products functionality
 
+#Test Case 8: Verify All Products and product detail page
 Scenario: List of Products
     Given User navigates to Automation Exercise website
     Then Home page should be visible
@@ -8,6 +9,7 @@ Scenario: List of Products
     Then User should navigated to All Product page
     And click on view products and verify details
 
+#Test Case 9: Search Product
 Scenario Outline: Search products
     Given User navigates to Automation Exercise website
     Then Home page should be visible
@@ -18,9 +20,10 @@ Scenario Outline: Search products
 
 Examples:
 | product_name |
-| top |
-| shirt |
+|     top      |
+|     shirt    |
 
+#Test Case 12: Add Products in Cart
 Scenario Outline: Add product in cart
     Given User navigates to Automation Exercise website
     Then Home page should be visible
@@ -43,7 +46,7 @@ Examples:
 |       7     |     7       |      7      |
 |       4     |     2       |      4      |
 
-
+#Test Case 13: Verify Product quantity in Cart
 Scenario Outline: Product quantity in cart
     Given User navigates to Automation Exercise website
     Then Home page should be visible
