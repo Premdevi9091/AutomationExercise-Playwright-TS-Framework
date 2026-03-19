@@ -1,5 +1,7 @@
 import path from "path";
 import { JsonManager } from "./JsonManager";
+import { arrayBuffer } from "stream/consumers";
+import logger from "./logger";
 
 export class TestLogger {
 
@@ -26,20 +28,40 @@ export class TestLogger {
         return now.toISOString().replace(/[\/:, ]/g, "_");
     }
 
-    put(key: string, value:any){
+    put(key: string, value:any, type: 'array' | 'object' = 'object'){
         if(!this.filePath){
             throw new Error("TestLogger not initialized");
         }
 
-        if(this.data[key]){
-            this.data[key] = Array.isArray(this.data[key])
-                ? [...this.data[key], value]
-                : [this.data[key], value];
+        // if(this.data[key]){
+        //     this.data[key] = Array.isArray(this.data[key])
+        //         ? [...this.data[key], value]
+        //         : [this.data[key], value];
+        // }
+        // else{
+        //     this.data[key] = value;
+        // }
+
+        const existing = this.data[key];
+    
+        if(type === 'array'){
+            if(!existing){
+                this.data[key] = [value];
+            } else{
+                this.data[key].push(value);
+            }
         }
         else{
-            this.data[key] = value;
+            if(!existing){
+                this.data[key] = value;
+            } else{
+                this.data[key] = {...existing, ...value};
+            }
         }
+        
         JsonManager.write(this.filePath, this.data);
+        logger.info(`Added in testlogger: ${JSON.stringify(this.data)}`);
+        
     }
 
     get(key: string){
