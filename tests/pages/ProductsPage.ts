@@ -53,13 +53,12 @@ export class ProductsPage extends BasePage{
     async clickOnViewProduct(){
         for(let i = 1; i <= 5; i++){
             await this.actions?.click(this.viewProduct(i), `Clicked on View Product for: ${i + 1} product`);
-            await this.verifyProductDetails();
+            await this.verifyProductDetails('array');
             await this.actions?.click(this.productLink, "Products");
         }
     }
 
-    async verifyProductDetails(){
-        let productsDetails: Record<string, any> = {};
+    async verifyProductDetails(type: 'array' | 'object' = 'object'){
         const productId = (await this.actions?.getAttribute(this.productImg.nth(0), "src", "src"))?.split("/").pop();
         const name = await this.actions?.getText(this.productInformation.locator("h2"), "Product Name");
         const category = (await this.actions?.getText(this.productInformation.locator("p").nth(0), "Product Category"))?.split(":")[1].trim();
@@ -69,7 +68,7 @@ export class ProductsPage extends BasePage{
         const brand = (await this.actions?.getText(this.productInformation.locator("p").nth(3), "Product Brand"))?.split(":")[1].trim();
         const qty = (await this.actions?.getInputValue(this.productInformation.locator("input").nth(0), "Product Quantity"));
 
-        productsDetails = {
+        const productsDetails = {
             id: productId,
             name: name,
             cateogory: category,
@@ -79,7 +78,7 @@ export class ProductsPage extends BasePage{
             condition: condition,
             brand: brand
         }
-        this.testLogger.put(`Products`, productsDetails);        
+        this.testLogger.put(`Products`, productsDetails, type);        
     }
 
     async searchProduct(product_name : string){
@@ -110,16 +109,15 @@ export class ProductsPage extends BasePage{
         this.product_no = product_number;
         const hover = this.hoverEle.nth(product_number - 1);
         await this.actions?.hoverElement(hover, `Product ${product_number}`);
-        let productsDetails: Record<string, any> = {};
-        
+
         const name = await this.actions?.getText(hover.locator(".productinfo p"), "Product Name");
         const price = await this.actions?.getText(hover.locator(".productinfo h2"), "Product Price");
-        productsDetails = {
+        const productsDetails = {
             id: product_number,
             name: name,
             price: price
         }
-        this.testLogger.put(`Products`, productsDetails);
+        this.testLogger.put(`Products`, productsDetails, 'array');
 
     }
     async clickAddtoCartHomePage(){
@@ -162,7 +160,7 @@ export class ProductsPage extends BasePage{
             id: data.id,
             name: data.name,
             price: data.price,
-            quantity: Number(data.quantity)
+            quantity: Number(data.quantity) || 1
         }];
     }
 
