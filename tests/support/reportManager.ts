@@ -1,7 +1,7 @@
 import reporter, { Options } from "cucumber-html-reporter";
 import fs from "fs";
 import path from "path";
-import { config } from "../utils/config";
+import { config } from "../../utils/config";
 
 const timestamp = (() => {
     const n = new Date();
@@ -9,7 +9,7 @@ const timestamp = (() => {
     return `${pad(n.getDate())}_${pad(n.getMonth() + 1)}_${n.getFullYear()}_${pad(n.getHours())}_${pad(n.getMinutes())}_${pad(n.getSeconds())}`
 })();
 
-const reportDir = `test-reports/report/report_${timestamp}`;
+const reportDir = `tests/test-reports/report/report_${timestamp}`;
 
 if(!fs.existsSync(reportDir)){
     fs.mkdirSync(reportDir, { recursive: true});
@@ -17,11 +17,11 @@ if(!fs.existsSync(reportDir)){
 const reportPath = path.join(reportDir, "report.html");
 const options: Options = {
     theme: "bootstrap",
-    jsonFile: "test-reports/cucumber-report.json",
+    jsonFile: "tests/test-reports/cucumber-report.json",
     output: reportPath,
     reportSuiteAsScenarios: true,
     launchReport: true,
-    screenshotsDirectory: "test-reports/screenshots",
+    screenshotsDirectory: "tests/test-reports/screenshots",
     storeScreenshots: true,
     metadata: {
         "Project Name": "AutomationExercise Playwright Framework",

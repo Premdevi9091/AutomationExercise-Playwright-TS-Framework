@@ -1,11 +1,11 @@
 import { Before, After, AfterStep, Status, setDefaultTimeout } from "@cucumber/cucumber";
 import { chromium, Browser, firefox, webkit } from "@playwright/test";
 import { CustomWorld } from "../../world/customWorld";
-import logger from "../../utils/logger";
+import logger from "../../../utils/logger";
 import { takeScreenshot } from "../screenshotManager";
-import { config } from "../../utils/config";
-import { TestLogger } from "../../utils/testlogger";
-import { PageManager } from "../../utils/pageManager";
+import { config } from "../../../utils/config";
+import { TestLogger } from "../../../utils/testlogger";
+import { PageManager } from "../../../utils/pageManager";
 
 setDefaultTimeout(config.defaultTimeout);
 let browser : Browser;

@@ -1,5 +1,5 @@
 import { Given, When, Then } from "@cucumber/cucumber";
-import { CustomWorld } from "../../world/customWorld";
+import { CustomWorld } from "../../tests/world/customWorld";
 import { HomePage } from "../pages/HomePage";
 import { config } from "../../utils/config";
 

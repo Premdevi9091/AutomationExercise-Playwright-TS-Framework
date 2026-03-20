@@ -1,5 +1,5 @@
 import { Given, When, Then } from "@cucumber/cucumber";
-import { CustomWorld } from "../../world/customWorld";
+import { CustomWorld } from "../../tests/world/customWorld";
 import { SubscriptionPage } from "../pages/SubscriptionPage";
 
 Then('verify subscription text and fields', async function(this: CustomWorld) {

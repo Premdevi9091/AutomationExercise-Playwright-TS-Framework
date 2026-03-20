@@ -1,6 +1,5 @@
 import path from "path";
 import { JsonManager } from "./JsonManager";
-import { arrayBuffer } from "stream/consumers";
 import logger from "./logger";
 
 export class TestLogger {
@@ -18,7 +17,7 @@ export class TestLogger {
         const timestamp = this.getFormattedDateTime();
 
         const fileName = `${safeScenarioName}_${timestamp}.json`;
-        this.filePath = path.join(process.cwd(), "testLogs", fileName);
+        this.filePath = path.join("tests/testLogs", fileName);
         this.data = {};
         JsonManager.write(this.filePath, this.data);
     }
@@ -32,16 +31,6 @@ export class TestLogger {
         if(!this.filePath){
             throw new Error("TestLogger not initialized");
         }
-
-        // if(this.data[key]){
-        //     this.data[key] = Array.isArray(this.data[key])
-        //         ? [...this.data[key], value]
-        //         : [this.data[key], value];
-        // }
-        // else{
-        //     this.data[key] = value;
-        // }
-
         const existing = this.data[key];
     
         if(type === 'array'){

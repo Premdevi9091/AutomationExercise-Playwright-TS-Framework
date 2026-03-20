@@ -107,7 +107,7 @@ export class UIActions{
     async uploadFile(locator: Locator, fileName: string, elementName: string): Promise<void>{
         try{
             await expect(locator).toBeAttached({timeout: 5000});
-            const filePath = path.join(process.cwd(), "test-data/upload-file", fileName);
+            const filePath = path.join(process.cwd(), "tests/test-data/upload-file", fileName);
             await locator.setInputFiles(filePath);
             logger.info(`uploadFile passed for ${elementName} | uploaded: "${fileName}"`);
         }catch(error){

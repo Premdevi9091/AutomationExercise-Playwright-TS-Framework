@@ -94,15 +94,31 @@ AUTOMATIONEXERCISE_PLAYWRIGHT
 │   │   ├── BasePage.ts                         → base page containing common browser methods
 │   │   └── Page Object classes                 → encapsulate UI locators and page-level actions
 │   │
-│   └── step-definitions/
-│       └── Step definitions                    → map Gherkin steps to automation logic
-│
-├── support/
-│   ├── hooks/
-│   │   └── globalHooks.ts                      → manage test lifecycle (Before, After, AfterStep)
-│   ├── screenshotManager.ts                    → capture and store screenshots
-│   └── reportManager.ts                        → generate timestamp-based HTML reports
-│
+│   ├── step-definitions/
+│   |   └── Step definitions                    → map Gherkin steps to automation logic
+|   |
+|   ├── support/
+│   |   └──hooks/
+│   │      └── globalHooks.ts                   → manage test lifecycle (Before, After, AfterStep)
+│   |   └──screenshotManager.ts                 → capture and store screenshots
+│   |   └──reportManager.ts                     → generate timestamp-based HTML reports
+|   |
+|   ├── world/
+│   |   └── customWorld.ts                      → maintain scenario-specific browser and logger instances
+│   |
+|   ├── test-data/
+│   |   └── userData.json                       → store encrypted user credentials
+│   |   └── upload-file/                        → files used for upload test scenarios
+│   |
+|   ├── test-reports/
+│   |   └── HTML reports                        → generated execution reports
+│   |   └── Screenshots                         → screenshots captured per step/failure
+│   |   └── logs                                → framework execution logs (log.log)
+│   |   └── cucumber-report.json                → raw Cucumber JSON output
+│   |
+|   └── testLogs/
+│       └── Runtime JSON logs                   → scenario-specific execution logs
+|
 ├── utils/
 │   ├── config.ts                               → handle environment configuration from .env
 │   ├── testlogger.ts                           → scenario-level runtime JSON logging
@@ -113,22 +129,6 @@ AUTOMATIONEXERCISE_PLAYWRIGHT
 │   ├── UIActions.ts                            → reusable wrapper methods for Playwright actions
 │   ├── generateRandom.ts                       → dynamic/random test data generation
 │   └── pageManager.ts                          → lazy-load and manage page object instances
-│
-├── world/
-│   └── customWorld.ts                          → maintain scenario-specific browser and logger instances
-│
-├── test-data/
-│   ├── userData.json                           → store encrypted user credentials
-│   └── upload-file/                            → files used for upload test scenarios
-│
-├── test-reports/
-│   ├── HTML reports                            → generated execution reports
-│   ├── Screenshots                             → screenshots captured per step/failure
-│   ├── logs                                    → framework execution logs (log.log)
-│   └── cucumber-report.json                    → raw Cucumber JSON output
-│
-├── testLogs/
-│   └── Runtime JSON logs                       → scenario-specific execution logs
 │
 ├── .env                                        → environment configuration
 ├── cucumber.js                                 → Cucumber runner configuration

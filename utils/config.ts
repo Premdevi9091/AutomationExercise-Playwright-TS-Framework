@@ -1,5 +1,4 @@
 import dotenv from "dotenv";
-import { decrypt } from "./encryption";
 
 dotenv.config();
 
