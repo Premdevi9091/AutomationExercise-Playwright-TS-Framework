@@ -10,19 +10,30 @@ Then('click on Register Login', async function(this:CustomWorld) {
     await this.pages.get(OrderPage).clickRegisterLogin();
 });
 
-/*
-Your delivery address
-Mr. firstXYZ lastXYZ
-compnay
-address
-city state zipcode
-India
-mobile
+Then('verify Address Details section', async function(this:CustomWorld) {
+    await this.pages.get(OrderPage).verifyAddressSection();
+});
 
-Your billing address
-Mr. firstXYZ lastXYZ
-compnay
-address
-city state zipcode
-India
-*/
+Then('verify Review Your Order', async function(this:CustomWorld) {
+    await this.pages.get(OrderPage).verifyReviewYourOrder();
+});
+
+Then('click on Place Order', async function(this:CustomWorld) {
+    await this.pages.get(OrderPage).clickPlaceOrder();
+});
+
+Then('enter description in comment text', async function(this:CustomWorld) {
+    await this.pages.get(OrderPage).enterComment();
+})
+
+Then('enter the card details', async function(this:CustomWorld) {
+    await this.pages.get(OrderPage).enterCardDetails();
+});
+
+Then('click on Pay and Confirm Order', async function(this:CustomWorld) {
+    await this.pages.get(OrderPage).clickPayAndConfirmOrder();
+})
+
+Then('verify order placed successfully', async function(this:CustomWorld) {
+    await this.pages.get(OrderPage).verifyOrderPlaced();
+});
