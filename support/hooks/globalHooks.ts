@@ -63,7 +63,7 @@ Before(async function (this: CustomWorld, scenario){
         ){
             return route.abort();
         }
-        route.continue();
+        return route.continue();
     });
 
     //Hide remaining ad elements
