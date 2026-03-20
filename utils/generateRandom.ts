@@ -11,7 +11,7 @@ export class DataGenerator{
     }
 
     static generateRandomAlphaNumberic(length: number= 10): string{
-        const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890 ';
         return Array.from({length}, () => 
             chars.charAt(Math.floor(Math.random() * chars.length))
         ).join('');
