@@ -23,7 +23,9 @@ export const takeScreenshot = async(
 
     const buffer = await page.screenshot({
             path: filePath,
-            fullPage: true
+            fullPage: false,
+            quality: 50,
+            type: 'jpeg'
         });
     return buffer;
 };
