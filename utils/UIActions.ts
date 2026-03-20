@@ -78,6 +78,7 @@ export class UIActions{
 
     async getText(locator: Locator, elementName: string): Promise<string>{
         try{
+            await locator.scrollIntoViewIfNeeded();
             await expect(locator).toBeVisible();
             const text = (await locator.textContent())?.trim() || "";
             logger.info(`Retrieved text from ${elementName} : "${text}"`);
@@ -188,6 +189,35 @@ export class UIActions{
             return value;
         }catch(error){
             logger.error(`getAttribute failed for ${elementName}: ${error}`);
+            throw error;
+        }
+    }
+    //compareValue
+    async compareValues(actual: string | number, expected: string | number, elementName: string, options?: {ignoreCase?: boolean, trim?: boolean, contains?: boolean}): Promise<void>{
+        try{
+            let actualValue = String(actual);
+            let expectedValue = String(expected);
+            const normalize = (val: string) => val.replace(/\s+/g, " ").trim();
+            
+            //trim (default true)
+            if(options?.trim !== false){
+                actualValue = normalize(actualValue);
+                expectedValue = normalize(expectedValue);
+            }
+            //case insensitive
+            if(options?.ignoreCase){
+                actualValue = actualValue.toLowerCase();
+                expectedValue = expectedValue.toLowerCase();
+            }
+            //conatins support
+            if(options?.contains){
+                expect(actualValue).toContain(expectedValue);
+            } else{
+                expect(actualValue).toBe(expectedValue);
+            }
+            logger.info(`compareValues passed for ${elementName} | actual: "${actualValue}" | expected: "${expectedValue}"`);
+        } catch(error){
+            logger.error(`compareValues failed for ${elementName}: ${error}`);
             throw error;
         }
     }
