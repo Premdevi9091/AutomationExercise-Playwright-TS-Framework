@@ -2,7 +2,7 @@ import path from "path";
 import { JsonManager } from "./JsonManager";
 import { encrypt, decrypt } from "./encryption";
 
-const filePath = path.join("test-data", "userData.json");
+const filePath = path.join("tests/test-data", "userData.json");
 
 export class UserDataManager{
 

@@ -1,8 +1,8 @@
 import winston from "winston";
 import fs from "fs";
 
-if(!fs.existsSync("test-reports")){
-    fs.mkdirSync("test-reports", { recursive: true});
+if(!fs.existsSync("tests/test-reports")){
+    fs.mkdirSync("tests/test-reports", { recursive: true});
 }
 const logger = winston.createLogger({
     level: "info",
@@ -21,7 +21,7 @@ const logger = winston.createLogger({
     ),
     transports: [
         new winston.transports.File({
-            filename: "test-reports/log.log"
+            filename: "tests/test-reports/log.log"
         }),
     ]
 });

@@ -7,7 +7,7 @@ export const takeScreenshot = async(
     scenario: string,
     step: string
 ): Promise<Buffer> => {
-    const dir = `test-reports/screenshots/${scenario}`;
+    const dir = `tests/test-reports/screenshots/${scenario}`;
 
     if(!fs.existsSync(dir)){
         fs.mkdirSync(dir, { recursive: true});

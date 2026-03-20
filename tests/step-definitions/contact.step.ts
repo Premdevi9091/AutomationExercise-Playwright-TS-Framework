@@ -1,5 +1,5 @@
 import { When, Then } from "@cucumber/cucumber";
-import { CustomWorld } from "../../world/customWorld";
+import { CustomWorld } from "../../tests/world/customWorld";
 import { ContactUsPage } from "../pages/ContactUsPage";
 import { HomePage } from "../pages/HomePage";
 
