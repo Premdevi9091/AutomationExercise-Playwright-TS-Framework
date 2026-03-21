@@ -131,6 +131,8 @@ AUTOMATIONEXERCISE_PLAYWRIGHT
 │   └── pageManager.ts                          → lazy-load and manage page object instances
 │
 ├── .env                                        → environment configuration
+├── @rerun.txt                                  → to add failed scenarios
+├── .gitignore                                  → to add git ignore files/folders
 ├── cucumber.js                                 → Cucumber runner configuration
 ├── package.json                                → project dependencies and scripts
 └── tsconfig.json                               → TypeScript configuration
