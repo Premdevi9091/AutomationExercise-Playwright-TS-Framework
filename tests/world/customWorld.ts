@@ -11,5 +11,6 @@ export class CustomWorld extends World{
     scenarioName!: string;
     testData: any = {};
     testLogger!: TestLogger;
+    stepIndex!: number;
 }
 setWorldConstructor(CustomWorld);

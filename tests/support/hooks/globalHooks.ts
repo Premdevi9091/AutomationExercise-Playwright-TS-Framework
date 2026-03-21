@@ -10,49 +10,49 @@ import { PageManager } from "../../../utils/pageManager";
 setDefaultTimeout(config.defaultTimeout);
 let browser : Browser;
 
+//create to handle scenario examples screenshot folder
+const scenarioMap = new Map<string, number>();
+
 Before(async function (this: CustomWorld, scenario){
-    this.scenarioName = scenario.pickle.name;
-    
+
+    //clean & unqiue scenario name
+    const safeName = scenario.pickle.name.replace(/[^a-zA-Z0-9]/g, "_");
+
+    const count = (scenarioMap.get(safeName) || 0) + 1;
+    scenarioMap.set(safeName, count);
+
+    this.scenarioName = `${safeName}_${count}`; //per-scenario counter
+    this.stepIndex = 0;
+
     logger.info(`===== Starting Scenario: ${this.scenarioName} =====`);
     
     //Initialize Scenario-based TestLogger
     this.testLogger = new TestLogger();
     this.testLogger.initialize(this.scenarioName);
     
-    //Launch brwoser based on ENV config
-    switch(config.browser.toLowerCase()){
-        case "firefox":
-            browser = await firefox.launch({
-                headless: config.headless,
-                slowMo: config.slowMo,
-                args: ["--window-size=1100, 700"]
-            });
-            break;
-        
-        case "webkit":
-            browser = await webkit.launch({
-                headless: config.headless,
-                slowMo: config.slowMo,
-                args: ["--window-size=1100, 700"]
-            });
-            break;
-        
-        default:
-            browser = await chromium.launch({
-                headless: config.headless,
-                slowMo: config.slowMo,
-                args: ["--window-size=1020, 520"]
-            });
-    }
+    //browser launch
+    const browserType = 
+            config.browser.toLowerCase() === 'firebox'
+            ? firefox
+            : config.browser.toLowerCase() === 'webkit'
+            ? webkit
+            : chromium;
+
+    browser = await browserType.launch({
+        headless: config.headless,
+        slowMo: config.slowMo,
+        args: ["--window-size=1020, 520"]
+    });
 
     this.browser = browser;
     this.context = await browser.newContext({
         viewport: {width: 1020, height: 520}
     });
+
     this.page = await this.context.newPage();
     this.pages = new PageManager(this.page, this.testLogger);
 
-    //Block ad netwrok requests
+    //Block ads
     await this.page.route('**/*', (route) => {
         const url = route.request().url();
         if(
@@ -70,10 +70,10 @@ Before(async function (this: CustomWorld, scenario){
     await this.page.addScriptTag({
         content: `
         iframe, 
-        adsbygoogle,
+        .adsbygoogle,
         [id*="google_ads"],
         [class*="ads"],
-        [class*="banner]
+        [class*="banner"]
         {
          display: none !important;
          visibility: hideen !important;
@@ -91,32 +91,36 @@ AfterStep(async function (this: CustomWorld, step) {
     logger.info(`Step Executed: ${step.pickleStep.text}`);
 
     if(!config.screenshotEachStep) return;
-    
-    //Wait for page stability
-    await this.page.waitForLoadState("domcontentloaded").catch(() => {});
-    await this.page.waitForTimeout(400);
 
-    //keep existing screenshot storage
+    this.stepIndex++;
+    
+    //clean step name
+    const stepName = step.pickleStep.text
+                        .replace(/[^a-zA-Z0-9]/g, "_")
+                        .substring(0, 50);  //option to avoid super long names
+    
     const screenshotBuffer = await takeScreenshot(
         this.page,
         this.scenarioName,
-        step.pickleStep.text
+        `${this.stepIndex}_${stepName}`
     );
-    //attach to cucumber report
-    this.attach(screenshotBuffer, "image/png");
 });
 
-After(async function (this: CustomWorld, scenario) {
+After(async function (this: CustomWorld, scenario,) {
+    
     try{
         if(scenario.result?.status === Status.FAILED){
             logger.error(`❌ Scenario Failed: ${this.scenarioName}`);
 
             if(config.screenshotOnFailure){
-                await takeScreenshot(
+                const screenshotBuffer= await takeScreenshot(
                     this.page,
                     this.scenarioName,
-                    "FAILED_STEP"
+                    `FAILED_STEP_${this.stepIndex}`
                 );
+                
+                //attach to cucumber report
+                this.attach(screenshotBuffer, "image/png");
             }
         }
         else{
