@@ -4,9 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "clean": "rimraf tests/test-reports tests/testLogs",
+    "clean": "rimraf tests/test-reports tests/testLogs rerun.txt tests/test-reports/rerun-report.json",
     "report": "ts-node tests/support/reportManager.ts",
-    "test:all": "npm run clean && (cucumber-js --tags \"@smoke\" || echo Tests failed) && npm run report",
+    "test:run": "cucumber-js -p default --tags \"@smoke\"",
+    "test:all": "npm run clean && (npm run test:run || echo Tests failed) && npm run report",
+    "test:rerun": "cucumber-js -p rerun @rerun.txt",
+    "rerun": "npm run test:rerun && rimraf rerun.txt && npm run report || (echo Rerun still failing && npm run report)",
     "test": "npm run test:all",
     "addUser": "ts-node scripts/userManager.ts"
   },
