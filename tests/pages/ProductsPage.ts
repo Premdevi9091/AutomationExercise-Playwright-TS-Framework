@@ -198,6 +198,7 @@ export class ProductsPage extends BasePage{
 
     async clickViewProduct(product_id : number){
         await this.actions?.click(this.viewProduct(product_id), "View Product");
+        await this.verifyProductDetails();
     }
 
     async increaseQty(qty: number){
