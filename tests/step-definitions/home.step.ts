@@ -18,3 +18,6 @@ When('User clicks on SignUp Login', async function (this: CustomWorld) {
 Then('click on Cart', async function(this:CustomWorld) {
     await this.pages.get(HomePage).clickCart();
 });
+Then('click on Test Cases', async function(this:CustomWorld) {
+    await this.pages.get(HomePage).clickTestCases();
+});
