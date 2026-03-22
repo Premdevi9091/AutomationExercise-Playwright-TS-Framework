@@ -221,4 +221,20 @@ export class UIActions{
             throw error;
         }
     }
+
+    //get All Texts into string
+    async getAllTexts(locator: Locator, elementName: string): Promise<string[]> {
+        try {
+            await expect(locator.first()).toBeVisible();
+            const texts = await locator.allTextContents();
+            const trimmedTexts = texts.map(t => t.trim()).filter(t => t.length > 0);
+
+            logger.info(`Retrieved all texts from ${elementName} | count: ${trimmedTexts.length} | texts: [${trimmedTexts}]`);
+
+            return trimmedTexts;
+        } catch (error) {
+            logger.error(`getAllTexts failed for ${elementName}: ${error}`);
+            throw error;
+        }
+}
 }

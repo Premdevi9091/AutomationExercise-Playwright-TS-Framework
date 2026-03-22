@@ -17,6 +17,7 @@ export class HomePage extends BasePage{
     private cartLink = this.page.locator("a[href='/view_cart']").first();
     private contactUsLink = this.page.getByText('Contact us');
     private productLink = this.page.getByText("Products");
+    private testCasesLink = this.page.locator('a[href="/test_cases"]').first();
 
     async verifyHomePageVisible(){
         await this.actions?.isVisible(this.homePageLogo, "Home Page");
@@ -36,5 +37,9 @@ export class HomePage extends BasePage{
 
     async clickContactUs(){
         await this.actions?.click(this.contactUsLink, "Contact Us");
+    }
+
+    async clickTestCases(){
+        await this.actions?.click(this.testCasesLink, "Test Cases");
     }
 }
