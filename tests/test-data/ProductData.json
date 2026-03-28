@@ -1,0 +1,20 @@
+{
+    "Category":[
+        "Women", 
+        "Men",
+        "Kids" 
+    ],
+    "Women":[
+        "Dress",
+        "Tops",
+        "Saree"
+    ],
+    "Men":[
+        "Tshirts",
+        "Jeans"
+    ],
+    "Kids": [
+        "Dress",
+        "Tops & Shirts"
+    ]
+}
