@@ -1,4 +1,4 @@
-@order @smoke
+@smoke @order
 Feature: Validate Orders functionality
 
 Background: 
@@ -35,10 +35,10 @@ Scenario Outline: Place order register while checkout
     And User click on Delete Account
     Then User account should be deleted successfully
 
-Examples:
-| product1_id |  product2_id  |    user         |
-|     1       |       3       |  register_user1 |
-#|     4       |       2       |  register_user2 |
+    Examples:
+    | product1_id |  product2_id  |    user         |
+    |     1       |       3       |  register_user1 |
+    #|     4       |       2       |  register_user2 |
 
 #Test Case 15: Place Order: Register before Checkout
 Scenario Outline: Place order after register
@@ -67,9 +67,9 @@ Scenario Outline: Place order after register
     And User click on Delete Account
     Then User account should be deleted successfully
 
-Examples:
-| product_id  |    user         |
-|     4       |  register_user2 |
+    Examples:
+    | product_id  |    user         |
+    |     4       |  register_user2 |
 
 
 #Test Case 16: Place Order: Login while Checkout
@@ -95,9 +95,9 @@ Scenario Outline: Place order login while checkout
     Then verify order placed successfully
     And click on logout button
 
-Examples:
-| product_id  |    user       |
-|     4       |  valid_user1  |
+    Examples:
+    | product_id  |    user       |
+    |     4       |  valid_user1  |
 
 
 #Test Case 17: Place Order: Login after Checkout
@@ -121,6 +121,18 @@ Scenario Outline: Place order after login
     Then verify order placed successfully
     And click on logout button
 
-Examples:
-| product_id  |    user       |
-|      5      |  valid_user1  |
+    Examples:
+    | product_id  |    user       |
+    |      5      |  valid_user1  |
+
+#Test Case 18: View Category Products
+Scenario Outline: View Category Products
+    Then verify the Category
+    When user select category "<category>"
+    And user select sub-category "<sub_category>"
+    Then all products related to "<category>" and "<sub_category>" should be display
+
+    Examples:
+    | category   | sub_category |
+    |   Women    |    Tops      |
+    |   Kids     |    Dress     |
