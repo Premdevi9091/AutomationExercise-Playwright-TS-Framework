@@ -7,7 +7,7 @@ import { config } from "../../utils/config";
 const timestamp = (() => {
     const n = new Date();
     const pad = (v: number) => String(v).padStart(2, '0');
-    return `${pad(n.getDate())}_${pad(n.getMonth() + 1)}_${n.getFullYear()}_${pad(n.getHours())}_${pad(n.getMinutes())}_${pad(n.getSeconds())}`;
+    return `${pad(n.getDate())}-${pad(n.getMonth() + 1)}-${n.getFullYear()}_${pad(n.getHours())}_${pad(n.getMinutes())}_${pad(n.getSeconds())}`;
 })();
 
 const reportDir = `tests/test-reports/report/report_${timestamp}`;
