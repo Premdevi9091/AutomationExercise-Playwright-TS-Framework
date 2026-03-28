@@ -204,7 +204,7 @@ export class UIActions{
             throw error;
         }
     }
-    //compareValue
+    //compareValue -> String and number
     async compareValues(actual: string | number, expected: string | number, elementName: string, options?: {ignoreCase?: boolean, trim?: boolean, contains?: boolean}): Promise<void>{
         try{
             let actualValue = String(actual);
@@ -248,5 +248,50 @@ export class UIActions{
             logger.error(`getAllTexts failed for ${elementName}: ${error}`);
             throw error;
         }
-}
+    }
+
+    //compareValues as Array -> string | number
+    async compareValuesArray(
+        actual: (string | number)[],
+        expected: (string | number)[],
+        elementName: string,
+        options?:{
+            ignoreCase?: boolean;
+            trim?: boolean;
+            contains?: boolean;
+            ordered?: boolean;
+        }
+    ): Promise<void>{
+        try{
+            const normalize = (val: string) => val.replace(/\s+/g, " ").trim();
+            const processValue = (val: string | number): string => {
+                let v = String(val);
+                if(options?.trim !== false){
+                    v = normalize(v);
+                }
+                if(options?.ignoreCase){
+                    v = v.toLowerCase();
+                }
+                return v;
+            };
+
+            const actualArr = actual.map(processValue);
+            const expectedArr = expected.map(processValue);
+
+            if(options?.contains){
+                for(const val of expectedArr){
+                    expect(actualArr).toContain(val);
+                }
+            } else if (options?.ordered === false){
+                expect([...actualArr].sort()).toEqual([...expectedArr].sort());
+            } else {
+                //default order matters
+                expect(actualArr).toEqual(expectedArr);
+            }
+            logger.info(`compareValuesArray passed for ${elementName} | actual: ${JSON.stringify(actualArr)} | expected: ${JSON.stringify(expectedArr)}`);
+        } catch(error){
+            logger.info(`compareValuesArray failed for ${elementName}: ${error}`);
+            throw error;
+        }
+    }
 }
