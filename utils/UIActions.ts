@@ -64,6 +64,18 @@ export class UIActions{
         }
     }
 
+    async isNotVisible(locator: Locator, elementName: string): Promise<boolean>{
+        try{
+            await locator.scrollIntoViewIfNeeded();
+            await expect(locator).not.toBeVisible();
+            logger.info(`${elementName} is not visible`);
+            return true;
+        }catch (error){
+            logger.error(`Visibility check failed for '${elementName}': ${error}`);
+            return false;
+        }
+    }
+
     async assertText(locator: Locator, value: string, elementName: string){
         try{
             await locator.scrollIntoViewIfNeeded();
