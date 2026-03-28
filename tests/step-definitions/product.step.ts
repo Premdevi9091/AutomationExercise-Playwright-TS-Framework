@@ -21,7 +21,7 @@ Then('Verify all the products related to {string} are visible', async function(t
 
 Then('click on continue shopping', async function(this: CustomWorld) {
     await this.pages.get(ProductsPage).clickContinueShopping();
-})
+});
 
 Then('click on Add to cart', async function(this:CustomWorld) {
     await this.pages.get(ProductsPage).clickAddtoCartHomePage();
@@ -53,4 +53,8 @@ Then('User click on view Product for {string}', async function(this: CustomWorld
 
 Then('click on Add to cart from product details page', async function(this: CustomWorld) {
     await this.pages.get(ProductsPage).clickAddtoCartDetailPage();
+});
+
+When('remove the {string} from cart', async function(this: CustomWorld, product_id: string) {
+    await this.pages.get(ProductsPage).removeProductFromCart(product_id);
 });

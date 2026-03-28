@@ -25,7 +25,7 @@ export class ProductsPage extends BasePage{
     }
 
     //Locators
-    private productLink = this.page.getByText("Products");
+    private productLink = this.page.getByRole('link', { name: 'Products' });
     private allProductsTitle = this.page.locator(".features_items h2.title");
     private totalProducts = this.page.locator(".features_items div.col-sm-4");
     private productInformation = this.page.locator(".product-information");
@@ -120,6 +120,7 @@ export class ProductsPage extends BasePage{
         this.testLogger.put(`Products`, productsDetails, 'array');
 
     }
+
     async clickAddtoCartHomePage(){
         const addtoCart = this.page.locator(`.overlay-content a[data-product-id='${this.product_no}']`);
         await this.actions?.click(addtoCart, "Add to cart");
@@ -209,4 +210,11 @@ export class ProductsPage extends BasePage{
     async clickAddtoCartDetailPage(){
         await this.actions?.click(this.addtoCart, "Add to Cart");
     }
+
+    async removeProductFromCart(product_id: string){
+        const removeEle = this.page.locator(`tr#product-${product_id} td.cart_delete a`);
+        await this.actions?.click(removeEle, `Removed ${product_id} from cart`);
+        await this.actions?.isNotVisible(removeEle, `Product ${product_id}`);
+    }
 }
+
