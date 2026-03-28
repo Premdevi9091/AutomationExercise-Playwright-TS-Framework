@@ -1,7 +1,7 @@
 import { Before, After, AfterStep, Status, setDefaultTimeout } from "@cucumber/cucumber";
 import { chromium, Browser, firefox, webkit } from "@playwright/test";
 import { CustomWorld } from "../../world/customWorld";
-import logger from "../../../utils/logger";
+import logger, { initLogger } from "../../../utils/logger";
 import { takeScreenshot } from "../screenshotManager";
 import { config } from "../../../utils/config";
 import { TestLogger } from "../../../utils/testlogger";
@@ -24,6 +24,8 @@ Before(async function (this: CustomWorld, scenario){
     this.scenarioName = `${safeName}_${count}`; //per-scenario counter
     this.stepIndex = 0;
 
+    //Initialize Scenario-based logger
+    initLogger(this.scenarioName);
     logger.info(`===== Starting Scenario: ${this.scenarioName} =====`);
     
     //Initialize Scenario-based TestLogger
