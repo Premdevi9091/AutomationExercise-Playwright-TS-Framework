@@ -1,4 +1,4 @@
-@smoke
+@smoke @products
 Feature: Validate Products functionality
 
 Background: 
@@ -53,7 +53,7 @@ Examples:
 |     3      |      3       |
 |     7      |     10       |
 
-@products
+
 #Test Case 17: Remove Products From Cart
 Scenario Outline: Remove Products From Cart
     When hover on the "<product1_id>" product
@@ -67,3 +67,27 @@ Scenario Outline: Remove Products From Cart
 Examples:
 | product1_id | product2_id | rem_product_id |
 |     3       |      4      |       3        |
+
+
+#Test Case 18: View Category Products
+Scenario Outline: View Category Products
+    Then verify the Category
+    When user select category "<category>"
+    And user select sub-category "<sub_category>"
+    Then all products related to "<category>" and "<sub_category>" should be display
+
+    Examples:
+    | category   | sub_category |
+    |   Women    |    Tops      |
+    |   Kids     |    Dress     |
+
+#Test Case 19: View & Cart Brand Products
+Scenario Outline: View & Cart Brand Products
+    Then verify the Brands
+    When user select brand "<brand>"
+    Then all products related to "<brand>" should be display
+
+    Examples:
+    |       brand           |
+    |         H&M           |
+    |   Allen Solly Junior  |

@@ -2,7 +2,6 @@ import { BasePage } from "./BasePage";
 import { UIActions } from "../../utils/UIActions";
 import test, { expect, Locator, Page } from "@playwright/test";
 import { TestLogger } from "../../utils/testlogger";
-import { AppDataManager } from "../../utils/AppDataManager";
 import { DataGenerator } from "../../utils/generateRandom";
 
 type AddressDetails = {
@@ -56,9 +55,6 @@ export class OrderPage extends BasePage{
     private successMsg2 = this.page.locator('.container p').first();
     private downloadInvoiceBtn = this.page.locator('a[href="/download_invoice/500"]');
     private continueBtn = this.page.locator("a[data-qa='continue-button']");
-    private sidePanel = this.page.locator('.left-sidebar')
-    private titleCategory = this.page.locator('.title');
-    private selectCategoryProducts = this.page.locator('.productinfo p');
 
 
     async clickProceedToCheckout(){
@@ -200,37 +196,5 @@ export class OrderPage extends BasePage{
         return total;
     }  
     
-    async verifyCategory(){
-
-        const categoryEle = this.sidePanel.locator('h2').first();
-        const categoryTypeEle = this.sidePanel.locator('div#accordian h4');
-        const expectedCategoryType = AppDataManager.get("Category");
-        const actualCategoryType: any = await this.actions?.getAllTexts(categoryTypeEle, "Categories Name");
-        
-        await this.actions?.assertText(categoryEle, "Category", "Category Name");
-        await this.actions?.compareValuesArray(actualCategoryType, expectedCategoryType, 'Compare Catergory');
-        this.testLogger.put("Category", actualCategoryType);
-    }
-
-    async selectCategory(type: string){
-        this.clickCategory(type);
-        const subCategoryEle = this.page.locator(`#${type} li`);
-        const actualSubCategoryType: any = await this.actions?.getAllTexts(subCategoryEle, " SubCategory Name");
-        const expectedSubCategoryType = AppDataManager.get(`${type}`);
-        await this.actions?.compareValuesArray(actualSubCategoryType, expectedSubCategoryType, "Compare SubCategory");
-        this.testLogger.put("Sub-Category", actualSubCategoryType);
-    }
-
-    async clickCategory(type: string){
-        console 
-        const catTypeEle = this.page.getByRole('link', { name: `${type}` }).first();
-        await this.actions?.click(catTypeEle, `${type}`);
-        
-    }
-    async verifyCategoryProducts(category: string, sub_cateogry: string){
-        const cateogryName = `${category} - ${sub_cateogry} Products`
-        await this.actions?.assertText(this.titleCategory, cateogryName, "Category Title");
-        const cateogryProducts: any = await this.actions?.getAllTexts(this.selectCategoryProducts, "Category Products");
-        this.testLogger.put("cateogryProducts", cateogryProducts);
-    }
+    
 }

@@ -58,3 +58,31 @@ Then('click on Add to cart from product details page', async function(this: Cust
 When('remove the {string} from cart', async function(this: CustomWorld, product_id: string) {
     await this.pages.get(ProductsPage).removeProductFromCart(product_id);
 });
+
+Then('verify the Category', async function(this:CustomWorld) {
+    await this.pages.get(ProductsPage).verifyCategory();
+});
+
+When('user select category {string}', async function(this:CustomWorld, category: string) {
+    await this.pages.get(ProductsPage).selectCategory(category);
+});
+
+When('user select sub-category {string}', async function(this:CustomWorld, sub_category: string) {
+    await this.pages.get(ProductsPage).clickProductType(sub_category);
+});
+
+Then('all products related to {string} and {string} should be display', async function(this:CustomWorld, category: string, sub_category: string) {
+    await this.pages.get(ProductsPage).verifyCategoryProducts(category, sub_category);
+});
+
+Then('verify the Brands', async function(this:CustomWorld)  {
+    await this.pages.get(ProductsPage).verifyBrands();
+});
+
+When('user select brand {string}', async function(this:CustomWorld, type: string) {
+    await this.pages.get(ProductsPage).clickProductType(type);
+})
+
+Then('all products related to {string} should be display', async function(this:CustomWorld, type: string) {
+    await this.pages.get(ProductsPage).verifyBrandsProducts(type);
+})
