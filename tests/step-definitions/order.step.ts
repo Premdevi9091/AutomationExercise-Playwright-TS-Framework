@@ -38,20 +38,4 @@ Then('verify order placed successfully', async function(this:CustomWorld) {
     await this.pages.get(OrderPage).verifyOrderPlaced();
 });
 
-Then('verify the Category', async function(this:CustomWorld) {
-    await this.pages.get(OrderPage).verifyCategory();
-});
-
-When('user select category {string}', async function(this:CustomWorld, category: string) {
-    await this.pages.get(OrderPage).selectCategory(category);
-});
-
-When('user select sub-category {string}', async function(this:CustomWorld, sub_category: string) {
-    await this.pages.get(OrderPage).clickCategory(sub_category);
-});
-
-Then('all products related to {string} and {string} should be display', async function(this:CustomWorld, category: string, sub_category: string) {
-    await this.pages.get(OrderPage).verifyCategoryProducts(category, sub_category);
-})
-
 

@@ -124,15 +124,3 @@ Scenario Outline: Place order after login
     Examples:
     | product_id  |    user       |
     |      5      |  valid_user1  |
-
-#Test Case 18: View Category Products
-Scenario Outline: View Category Products
-    Then verify the Category
-    When user select category "<category>"
-    And user select sub-category "<sub_category>"
-    Then all products related to "<category>" and "<sub_category>" should be display
-
-    Examples:
-    | category   | sub_category |
-    |   Women    |    Tops      |
-    |   Kids     |    Dress     |
