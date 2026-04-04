@@ -18,5 +18,15 @@
     "username": "TestUser4",
     "email": "testuser41@example.com",
     "password": "U2FsdGVkX1/P2t+ZlKMOVXkWIvfd4aH2lIG38fM81Rc="
+  },
+  "login_user1": {
+    "username": "Testuser5",
+    "email": "testuser5x@example.com",
+    "password": "U2FsdGVkX1/0+ShRdPKoLAWd9ogPZq4LeuhYSqoGC+w="
+  },
+  "login_user2": {
+    "username": "Testuser6",
+    "email": "testuser6x@example.com",
+    "password": "U2FsdGVkX1+Vb6AYI14qPrPJM3LRRi0DO+DnVfzVmIE="
   }
 }

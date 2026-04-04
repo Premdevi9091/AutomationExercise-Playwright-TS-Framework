@@ -81,8 +81,41 @@ Then('verify the Brands', async function(this:CustomWorld)  {
 
 When('user select brand {string}', async function(this:CustomWorld, type: string) {
     await this.pages.get(ProductsPage).clickProductType(type);
-})
+});
 
 Then('all products related to {string} should be display', async function(this:CustomWorld, type: string) {
     await this.pages.get(ProductsPage).verifyBrandsProducts(type);
+});
+
+Then('add first {string} products to cart', async function(this:CustomWorld, num: number) {
+    await this.pages.get(ProductsPage).addProducts(num);
+});
+
+When('verify review section', async function(this:CustomWorld) {
+    await this.pages.get(ProductsPage).reviewSection();
+});
+
+When('enter the {string} details and review', async function(this:CustomWorld, user: string) {
+    await this.pages.get(ProductsPage).enterReviewDetails(user);
+});
+
+When('click on submit', async function(this:CustomWorld) {
+    await this.pages.get(ProductsPage).clickReviewSubmit();
+});
+
+When('verify review success message', async function(this:CustomWorld) {
+    await this.pages.get(ProductsPage).verifyReviewSuccess();
+});
+
+Then('verify recommended items section', async function(this:CustomWorld) {
+    await this.pages.get(ProductsPage).recommandedSection();
 })
+Then('add product from recommended section', async function(this:CustomWorld) {
+    await this.pages.get(ProductsPage).addProductRecommandedSection();
+})
+
+
+
+
+
+

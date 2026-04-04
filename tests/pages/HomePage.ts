@@ -13,11 +13,12 @@ export class HomePage extends BasePage{
 
     //Locators
     private homePageLogo = this.page.getByAltText('Website for automation practice');
-    private signUpLink = this.page.locator("a[href='/login']");
+    private signUpLink = this.page.getByRole("link", {name: "Signup / Login"});
     private cartLink = this.page.locator("a[href='/view_cart']").first();
     private contactUsLink = this.page.getByText('Contact us');
     private productLink = this.page.getByText("Products");
     private testCasesLink = this.page.locator('a[href="/test_cases"]').first();
+    private homePageLink = this.page.getByRole("link", { name: "Home"});
 
     async verifyHomePageVisible(){
         await this.actions?.isVisible(this.homePageLogo, "Home Page");
@@ -41,5 +42,9 @@ export class HomePage extends BasePage{
 
     async clickTestCases(){
         await this.actions?.click(this.testCasesLink, "Test Cases");
+    }
+
+    async clickHome(){
+        await this.actions?.click(this.homePageLink, "Home");
     }
 }

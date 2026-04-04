@@ -21,3 +21,7 @@ Then('click on Cart', async function(this:CustomWorld) {
 Then('click on Test Cases', async function(this:CustomWorld) {
     await this.pages.get(HomePage).clickTestCases();
 });
+
+When('User click on Home page', async function(this:CustomWorld) {
+    await this.pages.get(HomePage).clickHome();
+})

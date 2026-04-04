@@ -91,3 +91,40 @@ Scenario Outline: View & Cart Brand Products
     |       brand           |
     |         H&M           |
     |   Allen Solly Junior  |
+
+
+#Test Case 20: Search Products and Verify Cart After Login
+Scenario Outline: Search Products and Verify Cart After Login
+    When enter the "<product_name>" and click on search
+    Then Verify all the products related to "<product_name>" are visible
+    #first 3 products
+    And add first "<number>" products to cart  
+    And click on Cart
+    Then verify the products in cart
+    When User clicks on SignUp Login
+    When "<user>" enters email and password
+    And User clicks Login button
+    Then verify Logged in as "<user>" should be display
+    And click on Cart
+    Then verify the products in cart
+    And click on logout button
+
+Examples:
+| product_name |  number   |      user      |
+|     top      |    5      |   login_user1  |
+
+#Test Case 21: Add review on product
+Scenario: Add review on product
+    When User click on view Product for "4"
+    And verify review section
+    And enter the "login_user2" details and review
+    And click on submit
+    And verify review success message
+
+#Test Case 22: Add to cart from Recommended items
+Scenario: Add to cart from Recommended items
+    And User click on Home page
+    Then verify recommended items section
+    And add product from recommended section
+    And click on Cart
+    Then verify the products in cart

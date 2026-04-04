@@ -2,6 +2,7 @@ import path from "path";
 import { JsonManager } from "./JsonManager";
 import { encrypt, decrypt } from "./encryption";
 
+/* to add user run command:: npm run addUser */
 const filePath = path.join("tests/test-data", "userData.json");
 
 export class UserDataManager{
