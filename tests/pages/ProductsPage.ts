@@ -4,6 +4,9 @@ import { expect, Page } from "@playwright/test";
 import { TestLogger } from "../../utils/testlogger";
 import logger from "../../utils/logger";
 import { AppDataManager } from "../../utils/AppDataManager";
+import { UserDataManager } from "../../utils/UserDataManager";
+import { DataGenerator } from "../../utils/generateRandom";
+import console from "node:console";
 
 interface CartItem  {
     id: string;
@@ -43,6 +46,16 @@ export class ProductsPage extends BasePage{
     private sidePanel = this.page.locator('.left-sidebar');
     private productTitle = this.page.locator('.title');
     private displayProducts = this.page.locator('.productinfo p');
+    private reviewTitle = this.page.locator('a[href="#reviews"]');
+    private reviewName = this.page.getByPlaceholder('Your Name');
+    private reviewEmail = this.page.locator('#email');
+    private reviewMessage = this.page.getByPlaceholder('Add Review Here!');
+    private reviewSubmitBtn = this.page.locator('#button-review');
+    private reviewSuccessMessage = this.page.locator('.alert-success span');
+    private recommandSection = this.page.locator('.recommended_items .title');
+    private recommandProducts = this.page.locator('.recommended_items .productinfo a');
+        
+    
     
     async clickProduct(){
         await this.actions?.click(this.productLink, "Products");
@@ -269,6 +282,72 @@ export class ProductsPage extends BasePage{
         await this.actions?.assertText(this.productTitle, brandName, "Category Title");
         const brandProducts: any = await this.actions?.getAllTexts(this.displayProducts, "Brand Products");
         this.testLogger.put("cateogryProducts", brandProducts);
+    }
+
+    async addProducts(num: number){
+        const addtoCart = this.page.locator('.productinfo a');
+        for(let i = 0; i < num; i++){
+            const addBtn = addtoCart.nth(i);
+            await this.actions?.click(addBtn, `added ${i} product`);
+            const productsDetails = {
+                id: await this.actions?.getAttribute(addBtn, "data-product-id", `get product ${i + 1} id`),
+                name: await this.actions?.getText(this.page.locator(".productinfo p").nth(i), "Product Name"),
+                price: await this.actions?.getText(this.page.locator(".productinfo h2").nth(i), "Product Price"),
+            }
+            await this.actions?.click(this.continueShoppingBtn, "Continue shopping");
+            this.testLogger.put(`Products`, productsDetails, 'array');
+        }
+    }
+
+    async reviewSection(){
+        await this.actions?.assertText(this.reviewTitle, "Write Your Review", "Write Your Review");
+        await this.actions?.isVisible(this.reviewName, "Review Name");
+        await this.actions?.isVisible(this.reviewEmail, "Review Email");
+        await this.actions?.isVisible(this.reviewMessage, "Review Message");
+    }
+
+    async enterReviewDetails(userkey: string){
+        const user = UserDataManager.getUser(userkey);
+        const username = user.username;
+        const email = user.email;
+        const reviewMsg = DataGenerator.generateRandomAlphaNumberic(60);
+        await this.actions?.fill(this.reviewName, username, "Name input");
+        await this.actions?.fill(this.reviewEmail, email, "Email input");
+        await this.actions?.fill(this.reviewMessage, reviewMsg, "Review Message input");
+        const reviewDetails = {
+                name: username,
+                email: email,
+                message: reviewMsg
+            }
+        this.testLogger.put(`ReviewDetails`, reviewDetails);
+    }
+
+    async clickReviewSubmit(){
+        await this.actions?.click(this.reviewSubmitBtn, "Review Submit button");
+    }
+
+    async verifyReviewSuccess(){
+        await this.actions?.assertText(this.reviewSuccessMessage, "Thank you for your review.", "Review Success Message");
+    }
+
+    async recommandedSection(){
+        await this.actions?.assertText(this.recommandSection, "recommended items", "Recommended Items Title");
+    }
+
+    async addProductRecommandedSection(){
+        const count: any = await this.actions?.getCount(this.recommandProducts, "Number of products in recommended");
+        for(let i = 0; i < count; i++){
+            const id: any = await this.actions?.getAttribute(this.recommandProducts.nth(i), "data-product-id", "product id");
+            const addBtn = this.page.locator(`.recommended_items .productinfo a[data-product-id='${id}']`);
+            await this.actions?.click(addBtn, `add ${id} product`);
+            const productsDetails = {
+                id: id,
+                name: await this.actions?.getText(this.page.locator(".productinfo p").nth(i), "Product Name"),
+                price: await this.actions?.getText(this.page.locator(".productinfo h2").nth(i), "Product Price"),
+            }
+            await this.actions?.click(this.continueShoppingBtn, "Continue shopping");
+            this.testLogger.put(`Products`, productsDetails, 'array');
+        }
     }
 }
 
