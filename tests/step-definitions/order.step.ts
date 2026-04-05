@@ -38,4 +38,12 @@ Then('verify order placed successfully', async function(this:CustomWorld) {
     await this.pages.get(OrderPage).verifyOrderPlaced();
 });
 
+Then('click on download Invoice', async function(this:CustomWorld) {
+    await this.pages.get(OrderPage).downloadInvoice();
+});
+
+Then('verify the downloaded file data', async function(this:CustomWorld) {
+    await this.pages.get(OrderPage).verifyDownloadFile();
+});
+
 

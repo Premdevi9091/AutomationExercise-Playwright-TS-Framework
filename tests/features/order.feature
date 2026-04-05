@@ -7,6 +7,7 @@ Background:
 
 #Test Case 14: Place Order: Register while Checkout
 #Test Case 23: Verify address details in checkout page
+#Test Case 24: Download Invoice after purchase order
 Scenario Outline: Place order register while checkout
     When hover on the "<product1_id>" product
     And click on Add to cart
@@ -32,6 +33,8 @@ Scenario Outline: Place order register while checkout
     And enter the card details
     And click on Pay and Confirm Order
     Then verify order placed successfully
+    And click on download Invoice
+    Then verify the downloaded file data
     And User click on Delete Account
     Then User account should be deleted successfully
 

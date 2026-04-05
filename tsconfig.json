@@ -9,5 +9,5 @@
         "outDir": "dist",
         "esModuleInterop": true
     },
-    "include": ["tests/**/*.ts", "scripts/**/*.ts"]
+    "include": ["tests/**/*.ts", "scripts/**/*.ts", "utils/**/*.ts"]
 }
