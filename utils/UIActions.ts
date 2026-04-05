@@ -1,7 +1,7 @@
 import { expect, Locator, Page } from "@playwright/test";
 import logger from "../utils/logger";
 import path from "path";
-import console from "console";
+import { DownloadManager } from "./downloadManager";
 
 export class UIActions{
     constructor(private page: Page){}
@@ -291,6 +291,38 @@ export class UIActions{
             logger.info(`compareValuesArray passed for ${elementName} | actual: ${JSON.stringify(actualArr)} | expected: ${JSON.stringify(expectedArr)}`);
         } catch(error){
             logger.info(`compareValuesArray failed for ${elementName}: ${error}`);
+            throw error;
+        }
+    }
+
+    //downlaod file
+    async downloadFile(
+        locator: Locator,
+        elementName: string
+    ): Promise<string>{
+        try{
+            await expect(locator).toBeVisible();
+            const downloadPromise = this.page.waitForEvent('download');
+            await locator.click();
+
+            const download = await downloadPromise;
+            const filePath = await DownloadManager.save(download);
+            logger.info(`Downloaded file from ${elementName} | path: ${filePath}`);
+            return filePath;
+        } catch(error){
+            logger.error(`DownloadFile failed for ${elementName}: ${error}`);
+            throw error;
+        }
+    }
+
+    //read downloaded file (text)
+    readDownloadFile(filePath: string): string{
+        try{
+            const content = DownloadManager.readFile(filePath);
+            logger.info(`Reading file | filePath: ${filePath}`);
+            return content;
+        } catch(error){
+            logger.error(`readDownloadFile failed | error: ${error}`);
             throw error;
         }
     }
