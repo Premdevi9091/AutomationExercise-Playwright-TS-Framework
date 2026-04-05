@@ -53,7 +53,7 @@ export class OrderPage extends BasePage{
     private successMsg = this.page.locator('div#success_message');
     private orderPlaceLabel = this.page.locator('.text-center');
     private successMsg2 = this.page.locator('.container p').first();
-    private downloadInvoiceBtn = this.page.locator('a[href="/download_invoice/500"]');
+    private downloadInvoiceBtn = this.page.getByText('Download Invoice');
     private continueBtn = this.page.locator("a[data-qa='continue-button']");
 
 
@@ -124,7 +124,34 @@ export class OrderPage extends BasePage{
     async verifyOrderPlaced(){
         await this.actions?.assertText(this.orderPlaceLabel, "Order Placed!", "Order Placed");
         await this.actions?.assertText(this.successMsg2, "Congratulations! Your order has been confirmed!", "Success Message 2");
-        await this.actions?.click(this.continueBtn, "Continue");
+    }
+
+    async downloadInvoice(){
+        const filePath = await this.actions?.downloadFile(this.downloadInvoiceBtn, "Download Invoice");
+        return filePath;
+    }
+
+    async verifyDownloadFile(){
+        const filePath = await this.downloadInvoice();
+        if (!filePath) {
+            throw new Error("Failed to download invoice");
+        }
+        const actualData = await this.readDownloadFile(filePath);
+        const expectedData = await this.expectedDownloadFileContent();
+        await this.actions?.compareValues(actualData, expectedData, "Compare file data");
+    }
+
+    async readDownloadFile(filePath: string): Promise<string>{
+        const content = this.actions!.readDownloadFile(filePath);
+        this.testLogger.put("FileData", content);
+        return content;
+    }
+    async expectedDownloadFileContent(): Promise<string> {
+        const totalAmount = await this.calculateExpectedTotalAmount();
+        const userData = this.testLogger.get("userDetails");
+        const userName = `${userData.firstName} ${userData.lastName}`
+        const content = `Hi ${userName}, Your total purchase amount is ${totalAmount}. Thank you`;
+        return content;
     }
 
     //created to get Actual delivery address from UI
