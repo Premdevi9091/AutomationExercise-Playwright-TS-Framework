@@ -24,4 +24,12 @@ Then('click on Test Cases', async function(this:CustomWorld) {
 
 When('User click on Home page', async function(this:CustomWorld) {
     await this.pages.get(HomePage).clickHome();
-})
+});
+
+Then('click on arrow button', async function(this:CustomWorld) {
+    await this.pages.get(HomePage).clickArrow();
+});
+
+Then('verify page is scrolled up and {string} text is visible on screen', async function(this:CustomWorld, str: string) {
+    await this.pages.get(HomePage).verifyHomePageText(str);
+});

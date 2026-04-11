@@ -19,6 +19,8 @@ export class HomePage extends BasePage{
     private productLink = this.page.getByText("Products");
     private testCasesLink = this.page.locator('a[href="/test_cases"]').first();
     private homePageLink = this.page.getByRole("link", { name: "Home"});
+    private arrowUpBtn = this.page.locator("a#scrollUp");
+    private homeText = this.page.locator(".item h2").first();
 
     async verifyHomePageVisible(){
         await this.actions?.isVisible(this.homePageLogo, "Home Page");
@@ -46,5 +48,17 @@ export class HomePage extends BasePage{
 
     async clickHome(){
         await this.actions?.click(this.homePageLink, "Home");
+    }
+
+    async clickArrow(){
+        await this.actions?.click(this.arrowUpBtn, "Arrow Up");
+    }
+
+    async scrollUpWOButtn(){
+        await this.actions?.click(this.arrowUpBtn, "Arrow Up");
+    }
+
+    async verifyHomePageText(text: string){
+        await this.actions?.assertText(this.homeText, text, "Home Page Text");
     }
 }
