@@ -1,7 +1,7 @@
 import path from "path";
-import { JsonManager } from "./JsonManager";
+import { JsonManager } from "../core/JsonManager";
 
-const productFilePath = path.join("tests/test-data", "ProductData.json");
+const productFilePath = path.join("tests/data", "ProductData.json");
 
 export class AppDataManager {
 

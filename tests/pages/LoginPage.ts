@@ -1,8 +1,8 @@
 import { BasePage } from "./BasePage";
-import { UIActions } from "../../utils/UIActions";
+import { UIActions } from "../../utils/page-interaction/UIActions";
 import { Page } from "@playwright/test";
-import { TestLogger } from "../../utils/testlogger";
-import { UserDataManager } from "../../utils/UserDataManager";
+import { TestLogger } from "../../utils/core/testLogger";
+import { UserDataManager } from "../../utils/data/UserDataManager";
 
 
 export class LoginPage extends BasePage{

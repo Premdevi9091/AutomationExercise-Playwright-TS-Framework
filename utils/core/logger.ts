@@ -4,9 +4,8 @@ import path from "path";
 
 let currentLogger: Logger;
 
-export function initLogger(scenarioName: string) {
-    const logDir = path.join("tests/test-reports/logs", scenarioName);
-
+export function initLogger(runId: string, scenarioName: string) {
+    const logDir = path.join("test-reports", runId, "Scenarios", scenarioName);
     if (!fs.existsSync(logDir)) {
         fs.mkdirSync(logDir, { recursive: true });
     }
@@ -18,7 +17,7 @@ export function initLogger(scenarioName: string) {
                 format: () => {
                     const n = new Date();
                     const pad = (v: number) => String(v).padStart(2, '0');
-                    return `${pad(n.getDate())}_${pad(n.getMonth() + 1)}_${n.getFullYear()}_${pad(n.getHours())}_${pad(n.getMinutes())}_${pad(n.getSeconds())}`;
+                    return `${pad(n.getFullYear())}-${pad(n.getMonth() + 1)}-${n.getDate()}_${pad(n.getHours())}_${pad(n.getMinutes())}_${pad(n.getSeconds())}`;
                 }
             }),
             winston.format.errors({ stack: true }),
@@ -34,7 +33,7 @@ export function initLogger(scenarioName: string) {
     });
 }
 
-// 👉 global accessor (used everywhere)
+//global accessor (used everywhere)
 const logger = {
     info: (msg: string) => currentLogger?.info(msg),
     error: (msg: string) => currentLogger?.error(msg),

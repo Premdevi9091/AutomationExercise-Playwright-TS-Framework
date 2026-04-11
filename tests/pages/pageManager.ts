@@ -1,5 +1,5 @@
 import { Page } from "@playwright/test";
-import { TestLogger } from "./testlogger";
+import { TestLogger } from "../../utils/core/testLogger";
 
 export class PageManager{
 

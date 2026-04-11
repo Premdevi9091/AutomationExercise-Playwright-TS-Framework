@@ -13,20 +13,12 @@ export class TestLogger {
             throw new Error("Scenario name is undefined in TestLogger.initialize()");
         }
 
-        const safeScenarioName = scenarioName.replace(/[^a-zA-Z0-9]/g,"_");
-        const timestamp = this.getFormattedDateTime();
-
-        const fileName = `${safeScenarioName}_${timestamp}.json`;
-        this.filePath = path.join("tests/testLogs", fileName);
+        const fileName = `${scenarioName}.json`;
+        this.filePath = path.join("testLogs", fileName);
         this.data = {};
         JsonManager.write(this.filePath, this.data);
     }
-
-    private getFormattedDateTime(){
-        const now = new Date();
-        return now.toISOString().replace(/[\/:, ]/g, "_");
-    }
-
+    
     put(key: string, value:any, type: 'array' | 'object' = 'object'){
         if(!this.filePath){
             throw new Error("TestLogger not initialized");

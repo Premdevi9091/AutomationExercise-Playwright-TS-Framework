@@ -1,5 +1,5 @@
 import { When, Then } from "@cucumber/cucumber";
-import { CustomWorld } from "../../tests/world/customWorld";
+import { CustomWorld } from "../support/world/customWorld";
 import { OrderPage } from "../pages/OrderPage";
 
 Then('click on Proceed To Checkout', async function(this:CustomWorld) {

@@ -1,5 +1,5 @@
 import { Given, When, Then } from "@cucumber/cucumber";
-import { CustomWorld } from "../../tests/world/customWorld";
+import { CustomWorld } from "../support/world/customWorld";
 import { TestCasesPage } from "../pages/TestCasesPage";
 
 Then('User should navigated to Test Cases page', async function(this:CustomWorld) {

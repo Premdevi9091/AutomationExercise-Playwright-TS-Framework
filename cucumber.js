@@ -6,7 +6,7 @@ module.exports = {
     ],
     format: [
       "progress",
-      "json:tests/test-reports/main-report.json",
+      "json:test-reports/main-report.json",
       "rerun:@rerun.txt"
     ],
     requireModule: ["ts-node/register"],
@@ -20,7 +20,7 @@ module.exports = {
     ],
     format: [
       "progress",
-      "json:tests/test-reports/rerun-report.json"
+      "json:test-reports/rerun-report.json"
     ],
     requireModule: ["ts-node/register"]
   }

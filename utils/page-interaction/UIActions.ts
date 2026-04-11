@@ -1,7 +1,8 @@
 import { expect, Locator, Page } from "@playwright/test";
-import logger from "../utils/logger";
+import logger from "../core/logger";
 import path from "path";
-import { DownloadManager } from "./downloadManager";
+import { DownloadManager } from "../system/downloadManager";
+import { getRunId } from "../core/runContext";
 
 export class UIActions{
     constructor(private page: Page){}
@@ -56,7 +57,7 @@ export class UIActions{
         try{
             await locator.scrollIntoViewIfNeeded();
             await locator.waitFor({ state: "visible", timeout: 5000});
-            logger.info(`${elementName} is visible`);
+            logger.info(`'${elementName}' is visible`);
             return true;
         }catch (error){
             logger.error(`Visibility check failed for '${elementName}': ${error}`);
@@ -119,7 +120,7 @@ export class UIActions{
     async uploadFile(locator: Locator, fileName: string, elementName: string): Promise<void>{
         try{
             await expect(locator).toBeAttached({timeout: 5000});
-            const filePath = path.join(process.cwd(), "tests/test-data/upload-file", fileName);
+            const filePath = path.join(process.cwd(), "tests/data/upload-file", fileName);
             await locator.setInputFiles(filePath);
             logger.info(`uploadFile passed for ${elementName} | uploaded: "${fileName}"`);
         }catch(error){

@@ -1,5 +1,5 @@
 import { Page } from "@playwright/test";
-import logger from "../../utils/logger";
+import logger from "../../utils/core/logger";
 
 export class BasePage{
     protected page: Page;

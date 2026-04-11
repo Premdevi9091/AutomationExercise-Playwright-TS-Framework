@@ -1,12 +1,11 @@
 import { BasePage } from "./BasePage";
-import { UIActions } from "../../utils/UIActions";
+import { UIActions } from "../../utils/page-interaction/UIActions";
 import { expect, Page } from "@playwright/test";
-import { TestLogger } from "../../utils/testlogger";
-import logger from "../../utils/logger";
-import { AppDataManager } from "../../utils/AppDataManager";
-import { UserDataManager } from "../../utils/UserDataManager";
-import { DataGenerator } from "../../utils/generateRandom";
-import console from "node:console";
+import { TestLogger } from "../../utils/core/testLogger";
+import logger from "../../utils/core/logger";
+import { AppDataManager } from "../../utils/data/AppDataManager";
+import { UserDataManager } from "../../utils/data/UserDataManager";
+import { DataGenerator } from "../../utils/helpers/generateRandom";
 
 interface CartItem  {
     id: string;

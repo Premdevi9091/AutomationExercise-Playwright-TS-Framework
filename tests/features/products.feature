@@ -1,4 +1,4 @@
-@smoke @products
+@products @smoke
 Feature: Validate Products functionality
 
 Background: 
