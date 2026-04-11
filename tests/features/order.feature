@@ -1,4 +1,4 @@
-@smoke @order
+@order @smoke
 Feature: Validate Orders functionality
 
 Background: 

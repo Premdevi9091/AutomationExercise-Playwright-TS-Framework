@@ -1,9 +1,9 @@
 import { BasePage } from "./BasePage";
-import { UIActions } from "../../utils/UIActions";
+import { UIActions } from "../../utils/page-interaction/UIActions";
 import { Page } from "@playwright/test";
-import { TestLogger } from "../../utils/testlogger";
-import { UserDataManager } from "../../utils/UserDataManager";
-import { DataGenerator } from "../../utils/generateRandom";
+import { TestLogger } from "../../utils/core/testLogger";
+import { UserDataManager } from "../../utils/data/UserDataManager";
+import { DataGenerator } from "../../utils/helpers/generateRandom";
 
 
 export class ContactUsPage extends BasePage{

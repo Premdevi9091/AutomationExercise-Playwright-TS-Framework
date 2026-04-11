@@ -1,4 +1,4 @@
-@smoke @login
+@login @smoke
 Feature: Validate Login functionality
 
 #Test Case 2: Login User with correct email and password
@@ -17,6 +17,7 @@ Scenario Outline: Login & Logout with valid credentials
 Examples: 
 | user        |
 | valid_user1 |
+| login_user1 |
 
 #Test Case 3: Login User with incorrect email and password
 Scenario: Login with invalid credentials

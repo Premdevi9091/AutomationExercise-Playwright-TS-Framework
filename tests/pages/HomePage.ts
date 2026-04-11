@@ -1,5 +1,5 @@
 import { BasePage } from "../pages/BasePage";
-import { UIActions} from "../../utils/UIActions";
+import { UIActions} from "../../utils/page-interaction/UIActions";
 import { Page } from "@playwright/test";
 
 export class HomePage extends BasePage{

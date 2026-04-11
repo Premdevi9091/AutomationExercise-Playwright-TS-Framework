@@ -1,4 +1,4 @@
-@smoke @contactus
+@contactus @smoke
 Feature: Validate Contact Us functionality
 
 #Test Case 6: Contact Us Form

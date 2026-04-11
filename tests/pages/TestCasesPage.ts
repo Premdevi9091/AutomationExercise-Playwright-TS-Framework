@@ -1,7 +1,7 @@
 import { BasePage } from "./BasePage";
-import { UIActions } from "../../utils/UIActions";
+import { UIActions } from "../../utils/page-interaction/UIActions";
 import { Page } from "@playwright/test";
-import { TestLogger } from "../../utils/testlogger";
+import { TestLogger } from "../../utils/core/testLogger";
 
 
 export class TestCasesPage extends BasePage{

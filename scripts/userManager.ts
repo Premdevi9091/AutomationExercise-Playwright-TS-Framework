@@ -1,5 +1,5 @@
 import readline from "readline";
-import { UserDataManager } from "../utils/UserDataManager";
+import { UserDataManager } from "../utils/data/UserDataManager";
 
 const r1 = readline.createInterface({
     input: process.stdin,

@@ -1,7 +1,7 @@
 import { Given, When, Then } from "@cucumber/cucumber";
-import { CustomWorld } from "../../tests/world/customWorld";
+import { CustomWorld } from "../support/world/customWorld";
 import { HomePage } from "../pages/HomePage";
-import { config } from "../../utils/config";
+import { config } from "../../utils/core/config";
 
 Given('User navigates to Automation Exercise website', async function (this: CustomWorld) {
     await this.pages.get(HomePage).navigate(config.baseURL);

@@ -1,4 +1,4 @@
-@smoke @register
+@register @smoke
 Feature: Validate Account Registration and Deletion Functionality 
 
 #Test Case 1: Register User

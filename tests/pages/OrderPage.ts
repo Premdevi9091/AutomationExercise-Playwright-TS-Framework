@@ -1,8 +1,8 @@
 import { BasePage } from "./BasePage";
-import { UIActions } from "../../utils/UIActions";
-import test, { expect, Locator, Page } from "@playwright/test";
-import { TestLogger } from "../../utils/testlogger";
-import { DataGenerator } from "../../utils/generateRandom";
+import { UIActions } from "../../utils/page-interaction/UIActions";
+import { Locator, Page } from "@playwright/test";
+import { TestLogger } from "../../utils/core/testLogger";
+import { DataGenerator } from "../../utils/helpers/generateRandom";
 
 type AddressDetails = {
     name: string;
@@ -16,7 +16,6 @@ type AddressDetails = {
 export class OrderPage extends BasePage{
     private actions: UIActions | undefined;
     private testLogger: TestLogger;
-    private user : any;
 
     constructor(page: Page, testLogger: TestLogger){
         super(page);

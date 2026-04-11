@@ -1,5 +1,5 @@
 import { Given, When, Then } from "@cucumber/cucumber";
-import { CustomWorld } from "../../tests/world/customWorld";
+import { CustomWorld } from "../support/world/customWorld";
 import { RegisterPage } from "../pages/RegisterPage";
 
 Then('Signup page should be visible', async function (this: CustomWorld) {
