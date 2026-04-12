@@ -1,4 +1,4 @@
-@home @smoke
+@home
 Feature: Validate Home functionality
 
 #Test Case 25: Verify Scroll Up using 'Arrow' button and Scroll Down functionality

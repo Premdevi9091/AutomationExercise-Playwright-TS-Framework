@@ -6,13 +6,14 @@ module.exports = {
     ],
     format: [
       "progress",
-      "json:test-reports/main-report.json"
+      "json:test-reports/main-report.json",
+      "rerun:@rerun.txt"
     ],
     requireModule: ["ts-node/register"],
     paths: ["tests/features/**/*.feature"],
 
     //tags
-    tags: "@smoke",
+    tags: "@testcases",
 
     //retry configuration
     retry: 1
