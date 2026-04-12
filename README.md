@@ -80,74 +80,74 @@ npx playwright install
 AUTOMATIONEXERCISE_PLAYWRIGHT
 │
 ├── scripts/
-│   └── CLI utilities                                                   → create and manage encrypted users stored in test-data/userData.json
+│   └── CLI utilities                              → create and manage encrypted users stored in test-data/userData.json
 │
 ├── tests/
-│   ├── features/                                                       → Gherkin scenarios
+│   ├── features/                                  → Gherkin scenarios
 │   │
 │   ├── pages/                                                                      
-|   |  ├── BasePage.ts                                                  → base page containing common browser methods
-|   |  ├── Page Object classes                                          → encapsulate UI locators and page-level actions
-|   |  └── pageManager.ts                                               → lazy-load and manage page object instances
+|   |  ├── BasePage.ts                             → base page containing common browser methods
+|   |  ├── Page Object classes                     → encapsulate UI locators and page-level actions
+|   |  └── pageManager.ts                          → lazy-load and manage page object instances
 │   │
-│   ├── step-definitions/                                               → Step implementations
+│   ├── step-definitions/                          → Step implementations
 │   │
 │   ├── support/
 │   │   ├── hooks/
-│   │   │   └── globalHooks.ts                                          → manage test lifecycle (Before, After, AfterStep)
+│   │   │   └── globalHooks.ts                     → manage test lifecycle (Before, After, AfterStep)
 │   │   ├── managers/
-│   │   │   ├── screenshotManager.ts                                    → capture and store screenshots
-│   │   │   └── reportManager.ts                                        → HTML report generation
+│   │   │   ├── screenshotManager.ts               → capture and store screenshots
+│   │   │   └── reportManager.ts                   → HTML report generation
 │   |   ├── world/
-│   │   └── customWorld.ts                                              → maintain scenario-specific browser and logger instances
+│   │   └── customWorld.ts                         → maintain scenario-specific browser and logger instances
 │   │
 │   └── data/
-|       ├── ProductData.json                                            → files store ProductData
-│       ├── userData.json                                               → store encrypted user credentials
-│       └── upload-file/                                                → files used for upload test scenarios
+|       ├── ProductData.json                       → files store ProductData
+│       ├── userData.json                          → store encrypted user credentials
+│       └── upload-file/                           → files used for upload test scenarios
 │
-├── test-reports/                                                       → generated execution reports
+├── test-reports/                                  → generated execution reports
 │   └── run_YYYY-MM-DD_HH_MM_SS/
-│       ├── Scenarios/                                                  → handle scenarios
+│       ├── Scenarios/                             → handle scenarios
 │       │   ├── Scenario_Run1_.../
-│       │       ├── log.log                                             → framework execution logs (log.log)
-│       │       └── screenshots/                                        → screenshots captured per step/failure 
+│       │       ├── log.log                        → framework execution logs (log.log)
+│       │       └── screenshots/                   → screenshots captured per step/failure 
 │       │
-│       ├── downloads/                                                  → handle runtime downloaded files
-│       ├── report.html                                                 → final report
-│       └── main-report.json                                            → cucumber output
+│       ├── downloads/                             → handle runtime downloaded files
+│       ├── report.html                            → final report
+│       └── main-report.json                       → cucumber output
 │
 ├── testLogs/
-│   └── *.json                                                          → scenario-specific execution logs
+│   └── *.json                                     → scenario-specific execution logs
 │
 ├── utils/
 │   ├── core/
-│   │   ├── config.ts                                                    → handle environment configuration from .env
-│   │   ├── logger.ts                                                    → framework logging using winston
-│   │   ├── testLogger.ts                                                → scenario-level runtime JSON logging
-│   │   ├── JsonManager.ts                                               → generic JSON read, write, update utilities
-│   │   └── runContext.ts                                                → Stores global RUN_ID for execution
+│   │   ├── config.ts                              → handle environment configuration from .env
+│   │   ├── logger.ts                              → framework logging using winston
+│   │   ├── testLogger.ts                          → scenario-level runtime JSON logging
+│   │   ├── JsonManager.ts                         → generic JSON read, write, update utilities
+│   │   └── runContext.ts                          → Stores global RUN_ID for execution
 │   │
 │   ├── data/
-│   │   ├── AppDataManager.ts                                            → manage get/getAll data from Product.json
-│   │   └── UserDataManager.ts                                           → manage addUser/getUser from userData.json
+│   │   ├── AppDataManager.ts                      → manage get/getAll data from Product.json
+│   │   └── UserDataManager.ts                     → manage addUser/getUser from userData.json
 │   │
 │   ├── helpers/
-│   │   ├── encryption.ts                                                → AES encryption and decryption utilities
-│   │   └── generateRandom.ts                                            → dynamic/random test data generation
+│   │   ├── encryption.ts                          → AES encryption and decryption utilities
+│   │   └── generateRandom.ts                      → dynamic/random test data generation
 │   │
 |   ├── page-interaction
-|   |   └──UIActions.ts                                                  → reusable wrapper methods for Playwright actions
+|   |   └──UIActions.ts                            → reusable wrapper methods for Playwright actions
 |   |   
 │   └──system/
-│       └── downloadManager.ts                                           → Handles downloaded files save/read
+│       └── downloadManager.ts                     → Handles downloaded files save/read
 │
-├── .env                                                                 → environment configuration
-├── @rerun.txt                                                           → to add failed scenarios
-├── .gitignore                                                           → to add git ignore files/folders
-├── cucumber.js                                                          → Cucumber runner configuration
-├── package.json                                                         → project dependencies and scripts
-└── tsconfig.json                                                        → TypeScript configuration
+├── .env                                           → environment configuration
+├── @rerun.txt                                     → to add failed scenarios
+├── .gitignore                                     → to add git ignore files/folders
+├── cucumber.js                                    → Cucumber runner configuration
+├── package.json                                   → project dependencies and scripts
+└── tsconfig.json                                  → TypeScript configuration
 ```
 
 ---
@@ -355,9 +355,8 @@ Supported browsers:
 
 # 👨‍💻 Author
 
-# 👨‍💻 Author
-
 **Premdevi Kumawat**  
 QA Automation Engineer  
 
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue?logo=linkedin)](https://www.linkedin.com/in/premdevikumawat21/)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Premdevi-blue?logo=linkedin)](https://www.linkedin.com/in/premdevikumawat21/) 
+[![GitHub](https://img.shields.io/badge/GitHub-Premdevi-black?logo=github)](https://github.com/Premdevi9091)
