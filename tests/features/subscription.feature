@@ -1,4 +1,4 @@
-@subscription @smoke
+@subscription
 Feature: Validate Subscription functionality
 
 #Test Case 10: Verify Subscription in home page

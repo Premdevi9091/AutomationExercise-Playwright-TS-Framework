@@ -1,4 +1,4 @@
-@testcases @smoke
+@testcases
 Feature: Validate Test Cases functionality
 
 #Test Case 7: Verify Test Cases Page
