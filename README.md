@@ -3,7 +3,7 @@
 ![Playwright](https://img.shields.io/badge/Playwright-Automation-purple) 
 ![BDD](https://img.shields.io/badge/Framework-BDD-orange)
 
-# 🚀 AutomationExercise Playwright + Cucumber BDD Framework
+# 🚀 AutomationExercise Playwright + Cucumber BDD Test Automation Framework
 
 End-to-End Test Automation Framework built using:
 
@@ -84,42 +84,41 @@ AUTOMATIONEXERCISE_PLAYWRIGHT
 │
 ├── tests/
 │   ├── features/                                                       → Gherkin scenarios
+│   │
 │   ├── pages/                                                                      
-|      ├── BasePage.ts                                                  → base page containing common browser methods
-|      ├── Page Object classes                                          → encapsulate UI locators and page-level actions
-|      └── pageManager.ts                                               → lazy-load and manage page object instances
+|   |  ├── BasePage.ts                                                  → base page containing common browser methods
+|   |  ├── Page Object classes                                          → encapsulate UI locators and page-level actions
+|   |  └── pageManager.ts                                               → lazy-load and manage page object instances
+│   │
 │   ├── step-definitions/                                               → Step implementations
 │   │
 │   ├── support/
 │   │   ├── hooks/
 │   │   │   └── globalHooks.ts                                          → manage test lifecycle (Before, After, AfterStep)
-│   │   │
-│   │   └── managers/
-│   │       ├── screenshotManager.ts                                    → capture and store screenshots
-│   │       └── reportManager.ts                                        → HTML report generation
-│   │
-│   ├── world/
+│   │   ├── managers/
+│   │   │   ├── screenshotManager.ts                                    → capture and store screenshots
+│   │   │   └── reportManager.ts                                        → HTML report generation
+│   |   ├── world/
 │   │   └── customWorld.ts                                              → maintain scenario-specific browser and logger instances
 │   │
-│   ├── data/
-|   |   ├── ProductData.json                                            → files store ProductData
-│   │   ├── userData.json                                               → store encrypted user credentials
-│   │   └── upload-file/                                                → files used for upload test scenarios
+│   └── data/
+|       ├── ProductData.json                                            → files store ProductData
+│       ├── userData.json                                               → store encrypted user credentials
+│       └── upload-file/                                                → files used for upload test scenarios
 │
-├── test-reports/                                                        → generated execution reports
+├── test-reports/                                                       → generated execution reports
 │   └── run_YYYY-MM-DD_HH_MM_SS/
-│       ├── Scenarios/                                                   → handle scenarios
+│       ├── Scenarios/                                                  → handle scenarios
 │       │   ├── Scenario_Run1_.../
-│       │   │   ├── log.log                                              → framework execution logs (log.log)
-│       │   │   └── screenshots/                                         → screenshots captured per step/failure
-│       │   ├── Scenario_Run2_.../
+│       │       ├── log.log                                             → framework execution logs (log.log)
+│       │       └── screenshots/                                        → screenshots captured per step/failure 
 │       │
-│       ├── downloads/                                                   → handle runtime downloaded files
-│       ├── report.html                                                  → final report
-│       └── main-report.json                                             → cucumber output
+│       ├── downloads/                                                  → handle runtime downloaded files
+│       ├── report.html                                                 → final report
+│       └── main-report.json                                            → cucumber output
 │
 ├── testLogs/
-│   └── *.json                                                           → scenario-specific execution logs
+│   └── *.json                                                          → scenario-specific execution logs
 │
 ├── utils/
 │   ├── core/
@@ -137,8 +136,11 @@ AUTOMATIONEXERCISE_PLAYWRIGHT
 │   │   ├── encryption.ts                                                → AES encryption and decryption utilities
 │   │   └── generateRandom.ts                                            → dynamic/random test data generation
 │   │
-│   ├── system/
-│   │   └── downloadManager.ts                                           → Handles downloaded files save/read
+|   ├── page-interaction
+|   |   └──UIActions.ts                                                  → reusable wrapper methods for Playwright actions
+|   |   
+│   └──system/
+│       └── downloadManager.ts                                           → Handles downloaded files save/read
 │
 ├── .env                                                                 → environment configuration
 ├── @rerun.txt                                                           → to add failed scenarios
