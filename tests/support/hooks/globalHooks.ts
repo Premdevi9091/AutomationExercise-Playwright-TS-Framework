@@ -116,6 +116,7 @@ Before(async function (this: CustomWorld, scenario) {
 // ================= AFTER STEP =================
 
 AfterStep(async function (this: CustomWorld, step) {
+    console.log(`STEP: ${step.pickleStep.text}`);
     logger.info(`Step Executed: ${step.pickleStep.text}`);
     if(!config.screenshotEachStep) return;
     this.stepIndex++;

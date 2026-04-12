@@ -4,13 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "clean": "rimraf test-reports testLogs rerun.txt test-reports/rerun-report.json",
+    "clean": "rimraf test-reports testLogs rerun.txt",
+    "test:run": "cucumber-js -p default",
+    "test": "npm run clean && (npm run test:run || echo Tests failed) && npm run report",
     "report": "ts-node tests/support/managers/reportManager.ts",
-    "test:run": "cucumber-js -p default --tags \"@smoke\"",
-    "test:all": "npm run clean && (npm run test:run || echo Tests failed) && npm run report",
-    "test:rerun": "cucumber-js -p rerun @rerun.txt",
-    "rerun": "npm run test:rerun && rimraf rerun.txt && npm run report || (echo Rerun still failing && npm run report)",
-    "test": "npm run test:all",
     "addUser": "ts-node scripts/userManager.ts"
   },
   "keywords": [],
