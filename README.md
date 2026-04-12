@@ -358,5 +358,5 @@ Supported browsers:
 **Premdevi Kumawat**  
 QA Automation Engineer  
 
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Premdevi-blue?logo=linkedin)](https://www.linkedin.com/in/premdevikumawat21/) 
-[![GitHub](https://img.shields.io/badge/GitHub-Premdevi-black?logo=github)](https://github.com/Premdevi9091)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-blue?logo=linkedin)](https://www.linkedin.com/in/premdevikumawat21/) 
+[![GitHub](https://img.shields.io/badge/GitHub-black?logo=github)](https://github.com/Premdevi9091)
