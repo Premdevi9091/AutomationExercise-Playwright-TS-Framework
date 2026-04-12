@@ -334,7 +334,7 @@ export class ProductsPage extends BasePage{
     }
 
     async addProductRecommandedSection(){
-        const count: any = await this.actions?.getCount(this.recommandProducts, "Number of products in recommended");
+        const count: any = await this.recommandProducts.count();
         for(let i = 0; i < count; i++){
             const id: any = await this.actions?.getAttribute(this.recommandProducts.nth(i), "data-product-id", "product id");
             const addBtn = this.page.locator(`.recommended_items .productinfo a[data-product-id='${id}']`);
