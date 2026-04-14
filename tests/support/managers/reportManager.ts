@@ -60,9 +60,8 @@ const options: Options = {
 };
 
 reporter.generate(options);
-const stableReportPath = path.join(reportsRoot, "report.html");
-
+const stableReportPath = path.resolve("test-reports", "report.html");
 fs.copyFileSync(reportPath, stableReportPath);
 
-console.log(`Stable report copied to: ${stableReportPath}`);
 console.log(`Report generated at: ${reportPath}`);
+console.log(`Stable report copied to: ${stableReportPath}`);
