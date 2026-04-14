@@ -1,4 +1,4 @@
-@smoke
+@products @smoke
 Feature: Validate Products functionality
 
 Background: 
@@ -92,7 +92,6 @@ Scenario Outline: View & Cart Brand Products
     |         H&M           |
     |   Allen Solly Junior  |
 
-@products
 #Test Case 20: Search Products and Verify Cart After Login
 Scenario Outline: Search Products and Verify Cart After Login
     When enter the "<product_name>" and click on search
