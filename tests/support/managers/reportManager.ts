@@ -53,8 +53,8 @@ const options: Options = {
     theme: "bootstrap",
     jsonFile: jsonToUse,
     output: reportPath,
-    reportSuiteAsScenarios: false,
-    launchReport: true,
+    reportSuiteAsScenarios: true,
+    launchReport: false,
     screenshotsDirectory: path.join(runDir, "Scenarios"),
     storeScreenshots: true,
 };
