@@ -114,6 +114,9 @@ Then('add product from recommended section', async function(this:CustomWorld) {
     await this.pages.get(ProductsPage).addProductRecommandedSection();
 })
 
+When('remove all products from cart', async function(this:CustomWorld) {
+    await this.pages.get(ProductsPage).clearCart();
+});
 
 
 

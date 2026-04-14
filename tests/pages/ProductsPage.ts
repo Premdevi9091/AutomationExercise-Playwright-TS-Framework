@@ -348,5 +348,14 @@ export class ProductsPage extends BasePage{
             this.testLogger.put(`Products`, productsDetails, 'array');
         }
     }
+
+    async clearCart(){
+        const product = this.testLogger.get("Products");
+        for(let prod of product){
+            await this.removeProductFromCart(prod.id);
+        }
+    }
+
+
 }
 
