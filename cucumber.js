@@ -13,7 +13,7 @@ module.exports = {
     paths: ["tests/features/**/*.feature"],
 
     //tags
-    tags: "@testcases",
+    tags: "@smoke or @contactus or @home or @subscription or @testcases",
 
     //retry configuration
     retry: 1
