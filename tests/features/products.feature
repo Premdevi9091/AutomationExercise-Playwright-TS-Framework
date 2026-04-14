@@ -111,7 +111,7 @@ Scenario Outline: Search Products and Verify Cart After Login
 
 Examples:
 | product_name |  number   |      user      |
-|     top      |    5      |   login_user1  |
+|     top      |    3      |   login_user1  |
 
 #Test Case 21: Add review on product
 Scenario: Add review on product
