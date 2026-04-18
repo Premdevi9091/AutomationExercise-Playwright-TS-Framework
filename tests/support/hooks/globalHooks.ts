@@ -1,4 +1,4 @@
-import { Before, After, AfterStep, Status, setDefaultTimeout } from "@cucumber/cucumber";
+import { BeforeAll, Before, After, AfterStep, Status, setDefaultTimeout } from "@cucumber/cucumber";
 import { chromium, Browser, firefox, webkit } from "@playwright/test";
 import { CustomWorld } from "../world/customWorld";
 import logger, { initLogger } from "../../../utils/core/logger";
@@ -6,7 +6,7 @@ import { takeScreenshot } from "../managers/screenshotManager";
 import { config } from "../../../utils/core/config";
 import { TestLogger } from "../../../utils/core/testLogger";
 import { PageManager } from "../../pages/pageManager";
-import { setRunId } from "../../../utils/core/runContext";
+import { setRunId, getRunId } from "../../../utils/core/runContext";
 
 setDefaultTimeout(config.defaultTimeout);
 let browser: Browser;
@@ -14,28 +14,21 @@ let browser: Browser;
 // Track scenario iterations (Run1, Run2...)
 const scenarioMap = new Map<string, number>();
 
-// Generate RUN_ID once
-const getRunId = () => {
-    const now = new Date();
+// ================= BEFOREALL =================
+BeforeAll(function () {
+    const runId = new Date()
+        .toISOString()
+        .replace(/[:.]/g, "_")
+        .replace("T", "_")
+        .slice(0, 19);
 
-    const yyyy = now.getFullYear();
-    const mm = String(now.getMonth() + 1).padStart(2, "0");
-    const dd = String(now.getDate()).padStart(2, "0");
-    const hh = String(now.getHours()).padStart(2, "0");
-    const min = String(now.getMinutes()).padStart(2, "0");
-    const ss = String(now.getSeconds()).padStart(2, "0");
-
-    return `${yyyy}-${mm}-${dd}_${hh}_${min}_${ss}`;
-};
-
-//GLOBAL RUN ID (single per execution)
-const RUN_ID = getRunId();
-setRunId(RUN_ID);
+    setRunId(runId);
+});
 
 // ================= BEFORE =================
 Before(async function (this: CustomWorld, scenario) {
 
-    this.runID = RUN_ID;
+    this.runID = getRunId();
 
     const safeName = scenario.pickle.name
         .replace(/#\d+/g, "")

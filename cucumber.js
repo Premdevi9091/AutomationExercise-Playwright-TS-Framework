@@ -6,7 +6,7 @@ module.exports = {
     ],
     format: [
       "progress",
-      "json:test-reports/main-report.json",
+      `json:test-reports/main-report-${process.pid}.json`,
       "rerun:@rerun.txt"
     ],
     requireModule: ["ts-node/register"],
@@ -16,6 +16,11 @@ module.exports = {
     tags: "@smoke or @contactus or @home or @subscription or @testcases",
 
     //retry configuration
-    retry: 1
+    retry: 0,
+
+    //parallel execution
+    parallel: 3
   }
 };
+
+console.log("Running with parallel config");
