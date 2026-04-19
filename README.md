@@ -12,6 +12,8 @@ End-to-End Test Automation Framework built using:
 * 🟦 TypeScript
 * 🏗 Page Object Model (POM)
 * 📊 Cucumber HTML Reporter
+* ⚡ Parallel Execution (Cucumber)
+* 🔁 Jenkins CI/CD (Freestyle + Pipeline)
 * 🔐 AES Encryption (crypto-js)
 * 📝 Scenario-Level Runtime JSON Logging
 
@@ -30,8 +32,10 @@ It follows industry best practices:
 * Runtime JSON logging for execution traceability
 * Screenshot capture **only on failure**
 * Run-based reporting (no overwrite issues)
-* Built-in retry mechanism (no rerun.txt)
+* Built-in retry mechanism
 * Clean lifecycle management via hooks
+* Parallel execution support
+* CI/CD ready with Jenkins
 
 ---
 
@@ -248,11 +252,18 @@ Example:
 
 After execution:
 
-- Cucumber JSON report generated
-- HTML report generated automatically
+* JSON reports generated (parallel-safe)
+* Reports merged automatically
+* HTML report generated
 
 ```
 test-reports/run_xxx/report.html
+```
+
+## Stable Report (for Jenkins)
+
+```
+test-reports/report.html
 ```
 
 Report includes:
@@ -261,6 +272,86 @@ Report includes:
 - Metadata (Browser, Environment)
 - Step details
 - Screenshots
+
+---
+
+# ⚡ Parallel Execution
+
+Configured in:
+
+```js
+cucumber.js
+```
+
+```js
+parallel: 2
+```
+
+## How it works
+
+* Scenarios are divided across workers
+* Each worker runs independently
+* Each worker generates JSON:
+
+```
+main-report-<pid>.json
+```
+
+* Reports are merged into one HTML report
+
+---
+
+# 🔁 CI/CD Integration (Jenkins)
+
+## 🔹 Freestyle Job
+
+### Build Steps:
+
+```bash
+npm install
+npx playwright install
+npm test
+```
+
+### Post Build:
+
+* HTML directory: `test-reports`
+* Index file: `report.html`
+
+---
+
+## 🔹 Pipeline (Jenkinsfile)
+
+```groovy
+pipeline {
+    agent any
+
+    stages {
+        stage('Install') {
+            steps {
+                bat 'npm install'
+                bat 'npx playwright install'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                bat 'npm test'
+            }
+        }
+    }
+
+    post {
+        always {
+            publishHTML([
+                reportDir: 'test-reports',
+                reportFiles: 'report.html',
+                reportName: 'Automation Report'
+            ])
+        }
+    }
+}
+```
 
 ---
 
@@ -333,23 +424,15 @@ Supported browsers:
 
 ---
 
-# 🚀 Future Enhancements
-
-* CI/CD (GitHub Actions)
-* Parallel execution
-* Docker support
-* Allure reporting
-
----
-
 # 🏆 Key Highlights
 
-- Playwright + Cucumber BDD architecture
-- TypeScript-based scalable design
-- Secure encrypted credentials
-- Scenario-level JSON logging
-- Timestamp-based reporting
-- Modular and production-ready framework
+* Playwright + Cucumber BDD architecture
+* TypeScript-based scalable design
+* Parallel execution with report merging
+* CI/CD integration using Jenkins
+* Secure encrypted credentials
+* Scenario-level logging
+* Production-ready framework
 
 ---
 
